@@ -4,6 +4,10 @@
     {
       "src": "api/index.py",
       "use": "@vercel/python"
+    },
+    {
+      "src": "frontend/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -12,7 +16,15 @@
       "dest": "/frontend/$1"
     },
     {
-      "src": "/(.*)",
+      "src": "/",
+      "dest": "/api/index.py"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.py"
+    },
+    {
+      "src": "/analyze",
       "dest": "/api/index.py"
     }
   ]

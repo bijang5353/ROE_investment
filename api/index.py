@@ -83,18 +83,381 @@ async def api_info():
 # 메인 페이지 HTML 직접 반환
 @app.get("/", response_class=HTMLResponse)
 async def serve_index():
-    html_content = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta http-equiv="refresh" content="0; url=/static/index.html">
-        <title>ROE 기반 장기투자 분석</title>
-    </head>
-    <body>
-        <p><a href="/static/index.html">ROE 기반 장기투자 분석 시스템으로 이동...</a></p>
-    </body>
-    </html>
-    """
+    html_content = """<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROE 기반 장기투자 분석</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card { border: none; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .card-header { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
+        .form-range::-webkit-slider-thumb { background: #667eea; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; }
+        .btn-chart { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border: none; color: white; }
+        .error-message { background: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .success-message { background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .grade-A-plus { background: #28a745; color: white; }
+        .grade-A { background: #20c997; color: white; }
+        .grade-B-plus { background: #17a2b8; color: white; }
+        .grade-B { background: #6f42c1; color: white; }
+        .grade-C-plus { background: #fd7e14; color: white; }
+        .grade-C { background: #dc3545; color: white; }
+        .grade-D { background: #6c757d; color: white; }
+        .correlation-positive { color: #28a745; font-weight: bold; }
+        .correlation-negative { color: #dc3545; font-weight: bold; }
+        .correlation-neutral { color: #6c757d; }
+        .score-breakdown { border-left: 4px solid #667eea; padding-left: 15px; }
+        .score-item { display: flex; justify-content: space-between; margin: 5px 0; padding: 5px 10px; background: #f8f9fa; border-radius: 5px; }
+        #loadingSection { text-align: center; padding: 40px 0; }
+        .spinner-border { color: #667eea; }
+        #chartSection, #detailsSection { margin-top: 30px; }
+        #dualChart { height: 400px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark">
+        <div class="container-fluid">
+            <span class="navbar-brand mb-0 h1">ROE 기반 장기투자 분석 시스템</span>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">분석 설정</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="minRoe" class="form-label">최소 ROE (%): <span id="roeValue">15</span>%</label>
+                                <input type="range" class="form-range" id="minRoe" min="5" max="40" value="15" step="1">
+                                <div class="d-flex justify-content-between">
+                                    <small class="text-muted">5%</small>
+                                    <small class="text-muted">40%</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="years" class="form-label">지속 년수: <span id="yearsValue">5</span>년</label>
+                                <input type="range" class="form-range" id="years" min="5" max="10" value="5" step="1">
+                                <div class="d-flex justify-content-between">
+                                    <small class="text-muted">5년</small>
+                                    <small class="text-muted">10년</small>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="limit" class="form-label">분석 기업 수</label>
+                                <select class="form-select" id="limit">
+                                    <option value="5">5개</option>
+                                    <option value="10">10개</option>
+                                    <option value="20" selected>20개</option>
+                                    <option value="30">30개</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary w-100" id="analyzeBtn">분석하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loadingSection" style="display: none;">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3">분석 중입니다...</p>
+        </div>
+
+        <div id="resultsSection" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">분석 결과 (<span id="resultCount">0</span>)</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>순위</th>
+                                    <th>기업명</th>
+                                    <th>섹터</th>
+                                    <th>10년 평균 ROE</th>
+                                    <th>10년 누적수익률</th>
+                                    <th>상관계수</th>
+                                    <th>투자점수</th>
+                                    <th>등급</th>
+                                    <th>차트</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resultsTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chartSection" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0" id="chartTitle">차트</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="dualChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="detailsSection" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">상세 분석</h5>
+                </div>
+                <div class="card-body" id="detailsContent">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class ROEAnalyzer {
+            constructor() {
+                this.apiBaseUrl = window.location.origin;
+                this.currentChart = null;
+                this.analysisData = [];
+                this.autoAnalysisTimer = null;
+                this.hasPerformedInitialAnalysis = false;
+                this.initializeEventListeners();
+            }
+
+            initializeEventListeners() {
+                document.getElementById('analyzeBtn').addEventListener('click', () => {
+                    this.performAnalysis();
+                });
+                
+                document.getElementById('minRoe').addEventListener('input', (e) => {
+                    document.getElementById('roeValue').textContent = e.target.value;
+                    this.scheduleAutoAnalysis();
+                });
+                
+                document.getElementById('years').addEventListener('input', (e) => {
+                    document.getElementById('yearsValue').textContent = e.target.value;
+                    this.scheduleAutoAnalysis();
+                });
+                
+                document.getElementById('limit').addEventListener('change', () => {
+                    this.scheduleAutoAnalysis();
+                });
+            }
+
+            scheduleAutoAnalysis() {
+                if (!this.hasPerformedInitialAnalysis) {
+                    return;
+                }
+                
+                if (this.autoAnalysisTimer) {
+                    clearTimeout(this.autoAnalysisTimer);
+                }
+                
+                this.autoAnalysisTimer = setTimeout(() => {
+                    this.performAnalysis(true);
+                }, 800);
+            }
+
+            async performAnalysis(isAutoAnalysis = false) {
+                const minRoe = parseFloat(document.getElementById('minRoe').value);
+                const years = parseInt(document.getElementById('years').value);
+                const limit = parseInt(document.getElementById('limit').value);
+
+                if (minRoe < 5 || years < 5 || limit < 5) {
+                    this.showError('올바른 분석 조건을 입력해주세요.');
+                    return;
+                }
+
+                this.hasPerformedInitialAnalysis = true;
+
+                if (!isAutoAnalysis) {
+                    this.showLoading(true);
+                    this.hideResults();
+                } else {
+                    const resultCount = document.getElementById('resultCount');
+                    resultCount.textContent = '분석 중...';
+                }
+
+                try {
+                    const response = await fetch(`${this.apiBaseUrl}/analyze`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            min_roe: minRoe,
+                            years: years,
+                            limit: limit
+                        })
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.analysisData = result.data;
+                        this.displayResults(result.data);
+                        if (!isAutoAnalysis) {
+                            this.showSuccess(`${result.data.length}개 기업 분석이 완료되었습니다.`);
+                        }
+                    } else {
+                        if (!isAutoAnalysis) {
+                            this.showError(result.message || '분석 중 오류가 발생했습니다.');
+                        }
+                    }
+
+                } catch (error) {
+                    console.error('Analysis error:', error);
+                    if (!isAutoAnalysis) {
+                        this.showError('서버 연결에 실패했습니다. 서버가 실행 중인지 확인해주세요.');
+                    }
+                } finally {
+                    if (!isAutoAnalysis) {
+                        this.showLoading(false);
+                    }
+                }
+            }
+
+            displayResults(data) {
+                const tbody = document.getElementById('resultsTableBody');
+                const resultCount = document.getElementById('resultCount');
+                
+                tbody.innerHTML = '';
+                resultCount.textContent = `${data.length}개 기업`;
+
+                data.sort((a, b) => b.investment_score.total_score - a.investment_score.total_score);
+
+                data.forEach((item, index) => {
+                    const row = this.createTableRow(item, index + 1);
+                    tbody.appendChild(row);
+                });
+
+                document.getElementById('resultsSection').style.display = 'block';
+            }
+
+            createTableRow(item, rank) {
+                const tr = document.createElement('tr');
+                
+                const gradeClass = this.getGradeClass(item.investment_score.grade);
+                const correlationClass = this.getCorrelationClass(item.correlation_analysis.correlation_coefficient);
+                
+                tr.innerHTML = `
+                    <td>${rank}</td>
+                    <td>
+                        <strong>${item.stock_info.company_name}</strong><br>
+                        <small class="text-muted">${item.stock_info.symbol}</small>
+                    </td>
+                    <td>${item.stock_info.sector || '-'}</td>
+                    <td>${item.ten_year_roe_avg.toFixed(2)}%</td>
+                    <td>${item.ten_year_return.toFixed(2)}%</td>
+                    <td class="${correlationClass}">${item.correlation_analysis.correlation_coefficient.toFixed(3)}</td>
+                    <td>
+                        <span class="badge ${gradeClass}">
+                            ${item.investment_score.total_score.toFixed(0)}점
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge ${gradeClass}">${item.investment_score.grade}</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-chart btn-sm" onclick="analyzer.showChart('${item.stock_info.symbol}')">
+                            차트 보기
+                        </button>
+                    </td>
+                `;
+
+                return tr;
+            }
+
+            getGradeClass(grade) {
+                const gradeMap = {
+                    'A+': 'grade-A-plus',
+                    'A': 'grade-A',
+                    'B+': 'grade-B-plus',
+                    'B': 'grade-B',
+                    'C+': 'grade-C-plus',
+                    'C': 'grade-C',
+                    'D': 'grade-D'
+                };
+                return gradeMap[grade] || 'bg-secondary';
+            }
+
+            getCorrelationClass(correlation) {
+                if (correlation > 0.3) return 'correlation-positive';
+                if (correlation < -0.3) return 'correlation-negative';
+                return 'correlation-neutral';
+            }
+
+            showLoading(show) {
+                const loadingSection = document.getElementById('loadingSection');
+                loadingSection.style.display = show ? 'block' : 'none';
+            }
+
+            hideResults() {
+                document.getElementById('resultsSection').style.display = 'none';
+                document.getElementById('chartSection').style.display = 'none';
+                document.getElementById('detailsSection').style.display = 'none';
+                this.clearMessages();
+            }
+
+            showError(message) {
+                this.clearMessages();
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'error-message';
+                alertDiv.textContent = message;
+                
+                const container = document.querySelector('.container-fluid');
+                container.insertBefore(alertDiv, container.firstChild);
+                
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.parentNode.removeChild(alertDiv);
+                    }
+                }, 5000);
+            }
+
+            showSuccess(message) {
+                this.clearMessages();
+                const alertDiv = document.createElement('div');
+                alertDiv.className = 'success-message';
+                alertDiv.textContent = message;
+                
+                const container = document.querySelector('.container-fluid');
+                container.insertBefore(alertDiv, container.firstChild);
+                
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.parentNode.removeChild(alertDiv);
+                    }
+                }, 3000);
+            }
+
+            clearMessages() {
+                const messages = document.querySelectorAll('.error-message, .success-message');
+                messages.forEach(msg => {
+                    if (msg.parentNode) {
+                        msg.parentNode.removeChild(msg);
+                    }
+                });
+            }
+        }
+
+        const analyzer = new ROEAnalyzer();
+    </script>
+</body>
+</html>"""
     return html_content
 
 @app.post("/analyze")
