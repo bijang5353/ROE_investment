@@ -1,14 +1,6 @@
-#!/usr/bin/env python3
-"""
-Vercel용 FastAPI 앱 엔트리포인트
-"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 from pydantic import BaseModel
-import json
-import os
 
 app = FastAPI(title="ROE 기반 장기투자 분석", version="1.0.0")
 
@@ -20,10 +12,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 정적 파일 서빙을 위한 설정
-static_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
-if os.path.exists(static_dir):
-    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+# Vercel에서는 정적 파일이 자동으로 서빙됨
 
 class AnalysisRequest(BaseModel):
     min_roe: float = 15.0
@@ -86,17 +75,26 @@ def get_realistic_stock_data(symbol, index):
     
     return stock_data.get(symbol, default_data)
 
-@app.get("/")
-async def root():
+@app.get("/api")
+async def api_info():
     return {"message": "ROE 기반 장기투자 분석 API - 데모 버전"}
 
-# 메인 페이지 라우팅
-@app.get("/static/index.html")
+# 메인 페이지 HTML 직접 반환
+@app.get("/")
 async def serve_index():
-    index_path = os.path.join(static_dir, "index.html")
-    if os.path.exists(index_path):
-        return FileResponse(index_path)
-    return {"error": "Index file not found"}
+    html_content = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta http-equiv="refresh" content="0; url=/static/index.html">
+        <title>ROE 기반 장기투자 분석</title>
+    </head>
+    <body>
+        <p><a href="/static/index.html">ROE 기반 장기투자 분석 시스템으로 이동...</a></p>
+    </body>
+    </html>
+    """
+    return html_content
 
 @app.post("/analyze")
 async def analyze_stocks(request: AnalysisRequest):
