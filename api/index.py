@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 
 app = FastAPI(title="ROE 기반 장기투자 분석", version="1.0.0")
@@ -80,7 +81,7 @@ async def api_info():
     return {"message": "ROE 기반 장기투자 분석 API - 데모 버전"}
 
 # 메인 페이지 HTML 직접 반환
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def serve_index():
     html_content = """
     <!DOCTYPE html>
