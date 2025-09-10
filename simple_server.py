@@ -172,6 +172,9 @@ async def analyze_stocks(request: AnalysisRequest):
         "data": results
     }
 
+# Vercel을 위한 앱 export - ASGI 앱 그대로 export
+app_for_vercel = app
+
 if __name__ == "__main__":
     import uvicorn
     print("=" * 60)

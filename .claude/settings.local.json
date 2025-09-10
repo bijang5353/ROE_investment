@@ -10,7 +10,8 @@
       "Bash(python:*)",
       "Bash(taskkill:*)",
       "Bash(git init:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git remote add:*)"
     ],
     "deny": [],
     "ask": []

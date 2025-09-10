@@ -1,6 +1,9 @@
 class ROEAnalyzer {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:8000';
+        // Vercel 배포시에는 현재 도메인 사용, 로컬에서는 localhost 사용
+        this.apiBaseUrl = window.location.hostname === 'localhost' ? 
+            'http://localhost:8000' : 
+            window.location.origin;
         this.currentChart = null;
         this.analysisData = [];
         this.autoAnalysisTimer = null;
