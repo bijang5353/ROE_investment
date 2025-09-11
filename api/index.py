@@ -756,17 +756,6 @@ async def serve_index():
                 });
             }
 
-            showChart(symbol) {
-                const stockData = this.analysisData.find(item => item.stock_info.symbol === symbol);
-                if (!stockData) return;
-
-                this.createDualChart(stockData);
-                this.createAnnualChart(stockData);
-                this.showStockDetails(stockData);
-                
-                document.getElementById('chartSection').style.display = 'block';
-                document.getElementById('detailsSection').style.display = 'block';
-                
                 document.getElementById('chartSection').scrollIntoView({ behavior: 'smooth' });
             }
 
@@ -1248,7 +1237,8 @@ async def serve_index():
             }
 
             showChart(symbol) {
-                console.log('차트 표시 요청:', symbol);
+                console.log('showChart 메서드 호출됨, symbol:', symbol);
+                console.log('this.analysisData:', this.analysisData);
                 
                 if (!this.analysisData || this.analysisData.length === 0) {
                     console.error('분석 데이터가 없습니다. 먼저 분석을 실행해주세요.');
