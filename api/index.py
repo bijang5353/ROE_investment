@@ -974,10 +974,14 @@ async def serve_index():
                 
                 const ctx = document.getElementById('annualChart').getContext('2d');
                 
-                // 기존 차트 제거
+                // 기존 차트 제거 (강제)
                 if (this.currentAnnualChart) {
                     this.currentAnnualChart.destroy();
+                    this.currentAnnualChart = null;
                 }
+                
+                // 캔버스 클리어
+                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
                 const chartData = stockData.chart_data;
                 
@@ -1234,9 +1238,9 @@ async def serve_index():
                     this.dualChart.destroy();
                     this.dualChart = null;
                 }
-                if (this.annualChart) {
-                    this.annualChart.destroy();
-                    this.annualChart = null;
+                if (this.currentAnnualChart) {
+                    this.currentAnnualChart.destroy();
+                    this.currentAnnualChart = null;
                 }
                 
                 // 차트 생성
