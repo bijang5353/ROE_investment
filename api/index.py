@@ -756,9 +756,6 @@ async def serve_index():
                 });
             }
 
-                document.getElementById('chartSection').scrollIntoView({ behavior: 'smooth' });
-            }
-
             createDualChart(stockData) {
                 // Chart.js 로드 확인
                 if (typeof Chart === 'undefined') {
