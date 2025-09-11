@@ -572,11 +572,9 @@ async def serve_index():
             }
 
             async performAnalysis(isAutoAnalysis = false) {
-                console.log('performAnalysis 호출됨');
                 const minRoe = parseFloat(document.getElementById('minRoe').value);
                 const years = parseInt(document.getElementById('years').value);
                 const limit = parseInt(document.getElementById('limit').value);
-                console.log('분석 파라미터:', { minRoe, years, limit });
 
                 if (minRoe < 5 || years < 5 || limit < 5) {
                     this.showError('올바른 분석 조건을 입력해주세요.');
@@ -954,7 +952,6 @@ async def serve_index():
             }
 
             createAnnualChart(stockData) {
-                console.log('createAnnualChart 호출됨:', stockData.stock_info.symbol);
                 
                 // Chart.js 로드 확인
                 if (typeof Chart === 'undefined') {
@@ -1234,8 +1231,6 @@ async def serve_index():
             }
 
             showChart(symbol) {
-                console.log('showChart 메서드 호출됨, symbol:', symbol);
-                console.log('this.analysisData:', this.analysisData);
                 
                 if (!this.analysisData || this.analysisData.length === 0) {
                     console.error('분석 데이터가 없습니다. 먼저 분석을 실행해주세요.');
@@ -1318,16 +1313,8 @@ async def serve_index():
 
         // DOM 로딩 완료 후 실행
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM 로딩 완료');
-            try {
-                const analyzer = new ROEAnalyzer();
-                window.analyzer = analyzer;
-                console.log('ROEAnalyzer 생성 성공');
-                console.log('performAnalysis 메서드:', typeof analyzer.performAnalysis);
-                console.log('showChart 메서드:', typeof analyzer.showChart);
-            } catch (error) {
-                console.error('ROEAnalyzer 생성 중 오류:', error);
-            }
+            const analyzer = new ROEAnalyzer();
+            window.analyzer = analyzer;
             
             // 투자 철학 토글 기능
             const philosophyCollapse = document.getElementById('philosophyContent');
