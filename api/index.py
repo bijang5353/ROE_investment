@@ -966,6 +966,8 @@ async def serve_index():
             }
 
             createAnnualChart(stockData) {
+                console.log('createAnnualChart 호출됨:', stockData.stock_info.symbol);
+                
                 // Chart.js 로드 확인
                 if (typeof Chart === 'undefined') {
                     console.error('Chart.js가 로드되지 않았습니다.');
@@ -980,6 +982,11 @@ async def serve_index():
                 
                 // 캔버스 요소를 새로 생성하여 완전히 초기화
                 const oldCanvas = document.getElementById('annualChart');
+                if (!oldCanvas) {
+                    console.error('annualChart 캔버스를 찾을 수 없습니다.');
+                    return;
+                }
+                
                 const newCanvas = document.createElement('canvas');
                 newCanvas.id = 'annualChart';
                 newCanvas.width = oldCanvas.width;
@@ -1051,6 +1058,7 @@ async def serve_index():
                             y: {
                                 type: 'linear',
                                 display: true,
+                                position: 'left',
                                 title: {
                                     display: true,
                                     text: '수익률 (%)',
@@ -1063,7 +1071,14 @@ async def serve_index():
                                     color: 'rgba(0, 0, 0, 0.1)'
                                 },
                                 min: 0,
-                                max: 60
+                                max: 60,
+                                ticks: {
+                                    stepSize: 10,
+                                    callback: function(value) {
+                                        console.log('Y축 tick 값:', value, '기업:', stockData.stock_info.symbol);
+                                        return value + '%';
+                                    }
+                                }
                             }
                         },
                         plugins: {
