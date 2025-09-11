@@ -1052,6 +1052,16 @@ async def serve_index():
                                 },
                                 grid: {
                                     color: 'rgba(0, 0, 0, 0.1)'
+                                },
+                                min: 0,
+                                max: function(context) {
+                                    // 데이터의 최대값 계산
+                                    const roeMax = Math.max(...chartData.roe_data);
+                                    const returnMax = Math.max(...annualReturns);
+                                    const dataMax = Math.max(roeMax, returnMax);
+                                    
+                                    // 최소 50%, 데이터 최대값의 1.2배 또는 100% 중 더 큰 값
+                                    return Math.max(50, Math.min(dataMax * 1.2, 100));
                                 }
                             }
                         },
