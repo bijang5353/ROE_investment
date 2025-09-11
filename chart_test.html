@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart.js 테스트</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        .container { max-width: 800px; margin: 50px auto; padding: 20px; }
+        button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #chartContainer { margin-top: 30px; height: 400px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chart.js 기본 테스트</h1>
+        <button onclick="testChart()">차트 생성 테스트</button>
+        <button data-symbol="AAPL" class="chart-btn">AAPL 차트 (이벤트 리스너)</button>
+        
+        <div id="chartContainer">
+            <canvas id="testChart"></canvas>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        console.log('Chart.js 로드됨:', typeof Chart !== 'undefined');
+        
+        // 기본 차트 생성 함수
+        function testChart() {
+            console.log('testChart 함수 호출됨');
+            
+            if (typeof Chart === 'undefined') {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Chart.js가 로드되지 않았습니다!</p>';
+                return;
+            }
+            
+            const ctx = document.getElementById('testChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'ROE (%)',
+                        data: [15, 18, 22, 25, 28],
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: '주가수익률 (%)',
+                        data: [0, 25, 45, 78, 125],
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+            
+            document.getElementById('result').innerHTML = '<p style="color: green;">차트가 성공적으로 생성되었습니다!</p>';
+        }
+        
+        // 클래스 방식 테스트
+        class TestAnalyzer {
+            constructor() {
+                console.log('TestAnalyzer 생성됨');
+            }
+            
+            showChart(symbol) {
+                console.log('showChart 호출됨, symbol:', symbol);
+                document.getElementById('result').innerHTML = `<p style="color: blue;">${symbol} 차트를 보여줍니다.</p>`;
+                testChart(); // 실제 차트 생성
+            }
+        }
+        
+        // DOM 로딩 완료 후 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM 로딩 완료');
+            
+            const analyzer = new TestAnalyzer();
+            window.analyzer = analyzer;
+            
+            // 이벤트 리스너 방식 테스트
+            document.querySelectorAll('.chart-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const symbol = e.target.getAttribute('data-symbol');
+                    analyzer.showChart(symbol);
+                });
+            });
+            
+            console.log('analyzer 객체:', analyzer);
+            console.log('showChart 메서드 타입:', typeof analyzer.showChart);
+        });
+    </script>
+</body>
+</html>

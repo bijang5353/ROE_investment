@@ -60,16 +60,111 @@ def get_realistic_stock_data(symbol, index):
             "roe_data": [15.2, 18.9, 22.4, 25.8, 26.4, 22.1, 31.5, 18.5, 25.5, 34.1, 32.8],
             "return_data": [0, 12.8, 53.2, 8.7, 56.8, 83.4, 135.2, 64.8, 194.2, 656.5, 698.1],
             "investment_value": [1.0, 1.1, 1.5, 1.1, 1.6, 1.8, 2.4, 1.6, 2.9, 7.6, 8.0]  # 1억 → 7.6억
+        },
+        "V": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [35.2, 38.9, 41.5, 44.8, 46.2, 35.8, 48.9, 52.1, 47.3, 49.8, 48.2],
+            "return_data": [0, 12.8, 35.6, 89.2, 156.8, 189.4, 298.6, 245.8, 456.7, 719.3, 685.2],
+            "investment_value": [1.0, 1.1, 1.4, 1.9, 2.6, 2.9, 4.0, 3.5, 5.6, 8.2, 7.9]
+        },
+        "MA": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [45.8, 52.3, 58.9, 62.4, 65.1, 48.9, 69.8, 72.3, 65.7, 68.9, 67.2],
+            "return_data": [0, 18.5, 45.2, 98.6, 178.4, 215.8, 356.9, 289.4, 568.2, 821.6, 798.3],
+            "investment_value": [1.0, 1.2, 1.5, 2.0, 2.8, 3.2, 4.6, 3.9, 6.7, 9.2, 9.0]
+        },
+        "HD": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [35.2, 38.9, 42.8, 46.5, 48.9, 44.2, 52.1, 48.9, 47.8, 45.6, 46.8],
+            "return_data": [0, 24.8, 68.9, 125.6, 189.4, 245.8, 356.7, 289.5, 398.6, 518.7, 495.2],
+            "investment_value": [1.0, 1.2, 1.7, 2.3, 2.9, 3.5, 4.6, 3.9, 5.0, 6.2, 5.9]
+        },
+        "AVGO": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [28.9, 32.5, 35.8, 39.2, 42.1, 38.9, 45.6, 48.2, 44.8, 41.2, 42.8],
+            "return_data": [0, 45.8, 125.6, 298.4, 456.7, 589.2, 856.9, 695.8, 1089.4, 1252.3, 1198.7],
+            "investment_value": [1.0, 1.5, 2.3, 4.0, 5.6, 6.9, 9.6, 8.0, 11.9, 13.5, 13.0]
+        },
+        "ASML": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [28.5, 31.2, 34.8, 38.9, 41.2, 35.8, 42.6, 45.9, 39.8, 36.2, 37.5],
+            "return_data": [0, 35.6, 89.4, 185.7, 298.6, 356.9, 589.4, 498.7, 698.5, 822.4, 789.6],
+            "investment_value": [1.0, 1.4, 1.9, 2.9, 4.0, 4.6, 6.9, 6.0, 8.0, 9.2, 8.9]
+        },
+        "NFLX": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [18.9, 22.4, 26.8, 31.2, 32.8, 28.9, 35.6, 32.1, 29.8, 28.5, 30.2],
+            "return_data": [0, 8.5, 54.2, 398.6, 298.4, 567.8, 256.9, 89.4, 654.7, 817.5, 798.2],
+            "investment_value": [1.0, 1.1, 1.5, 5.0, 4.0, 6.7, 3.6, 1.9, 7.5, 9.2, 9.0]
+        },
+        "COST": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [24.8, 26.5, 28.9, 31.2, 32.8, 29.4, 35.6, 32.1, 30.8, 28.5, 29.7],
+            "return_data": [0, 15.6, 35.8, 89.4, 125.6, 189.4, 256.8, 198.7, 356.9, 412.9, 398.5],
+            "investment_value": [1.0, 1.2, 1.4, 1.9, 2.3, 2.9, 3.6, 3.0, 4.6, 5.1, 5.0]
+        },
+        "ACN": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [24.5, 26.8, 29.4, 31.8, 33.2, 28.9, 35.1, 32.6, 30.2, 27.8, 29.1],
+            "return_data": [0, 18.5, 45.8, 98.6, 156.7, 198.4, 289.5, 235.6, 356.8, 413.6, 398.2],
+            "investment_value": [1.0, 1.2, 1.5, 2.0, 2.6, 3.0, 3.9, 3.4, 4.6, 5.1, 5.0]
+        },
+        "TMO": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [12.8, 13.9, 15.2, 16.8, 17.4, 14.9, 18.5, 16.2, 14.8, 13.5, 14.2],
+            "return_data": [0, 25.8, 68.9, 125.6, 189.4, 256.8, 356.9, 289.4, 398.6, 414.2, 398.5],
+            "investment_value": [1.0, 1.3, 1.7, 2.3, 2.9, 3.6, 4.6, 3.9, 5.0, 5.1, 5.0]
+        },
+        "KO": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [38.9, 40.2, 42.8, 44.5, 46.2, 39.8, 48.9, 45.6, 43.2, 40.8, 42.1],
+            "return_data": [0, 5.2, 15.6, 28.4, 45.8, 68.9, 89.4, 78.5, 98.6, 109.8, 105.2],
+            "investment_value": [1.0, 1.1, 1.2, 1.3, 1.5, 1.7, 1.9, 1.8, 2.0, 2.1, 2.1]
+        },
+        "PEP": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [46.8, 48.9, 51.2, 52.8, 54.6, 48.2, 56.9, 52.1, 49.8, 47.5, 48.9],
+            "return_data": [0, 8.5, 18.9, 35.6, 58.9, 78.4, 95.6, 89.4, 105.2, 110.5, 108.7],
+            "investment_value": [1.0, 1.1, 1.2, 1.4, 1.6, 1.8, 2.0, 1.9, 2.1, 2.1, 2.1]
+        },
+        "PG": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [22.8, 24.5, 26.2, 27.9, 29.1, 25.8, 31.2, 28.9, 26.5, 24.2, 25.6],
+            "return_data": [0, 15.6, 35.8, 68.9, 105.2, 135.6, 189.4, 165.8, 205.6, 211.2, 198.7],
+            "investment_value": [1.0, 1.2, 1.4, 1.7, 2.1, 2.4, 2.9, 2.7, 3.1, 3.1, 3.0]
+        },
+        "ABBV": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [42.8, 46.9, 51.2, 54.6, 58.9, 48.2, 62.1, 56.8, 52.4, 48.9, 50.6],
+            "return_data": [0, 25.8, 68.9, 125.6, 189.4, 235.6, 289.4, 256.8, 298.5, 313.7, 305.2],
+            "investment_value": [1.0, 1.3, 1.7, 2.3, 2.9, 3.4, 3.9, 3.6, 4.0, 4.1, 4.1]
+        },
+        "JNJ": {
+            "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
+            "roe_data": [22.5, 23.8, 25.2, 26.1, 27.8, 24.9, 28.2, 30.1, 29.5, 31.2, 30.8],
+            "return_data": [0, 8.5, 15.2, 28.4, 45.6, 65.8, 89.4, 78.2, 125.6, 212.5, 195.8],
+            "investment_value": [1.0, 1.1, 1.2, 1.3, 1.5, 1.7, 1.9, 1.8, 2.3, 3.1, 3.0]
         }
     }
     
-    # 기본값 (다른 주식들)  
-    base_return = [0, 15 + index * 2, 35 + index * 3, 28 + index * 4, 45 + index * 3, 62 + index * 3, 95 + index * 5, 78 + index * 7, 125 + index * 10, 158 + index * 12, 142 + index * 10]
+    # 기본값 (다른 주식들) - ROE 15% 이상 기업들 수익률 수정
+    roe_avg = 15 + (index * 3)
+    base_return = [0, 
+                   25 + index * 5,   # 1년차
+                   58 + index * 8,   # 2년차  
+                   98 + index * 12,  # 3년차
+                   145 + index * 15, # 4년차
+                   198 + index * 18, # 5년차
+                   265 + index * 22, # 6년차
+                   228 + index * 20, # 7년차 (조정)
+                   315 + index * 25, # 8년차
+                   398 + index * 28, # 9년차
+                   362 + index * 25] # 10년차 (YTD)
     investment_values = [1.0 + (r / 100) for r in base_return]  # 수익률을 투자 가치로 변환
     
     default_data = {
         "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
-        "roe_data": [20 + index, 22 + index, 24 + index, 26 + index, 28 + index, 25 + index, 30 + index, 32 + index, 28 + index, 31 + index, 29 + index],
+        "roe_data": [roe_avg - 2, roe_avg, roe_avg + 2, roe_avg + 4, roe_avg + 3, roe_avg - 1, roe_avg + 5, roe_avg + 2, roe_avg - 1, roe_avg + 1, roe_avg],
         "return_data": base_return,
         "investment_value": investment_values
     }
@@ -79,6 +174,146 @@ def get_realistic_stock_data(symbol, index):
 @app.get("/api")
 async def api_info():
     return {"message": "ROE 기반 장기투자 분석 API - 데모 버전"}
+
+@app.get("/test", response_class=HTMLResponse)
+async def chart_test():
+    """차트 기능 테스트 페이지"""
+    test_html = """<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart.js 테스트</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <style>
+        .container { max-width: 800px; margin: 50px auto; padding: 20px; font-family: Arial, sans-serif; }
+        button { padding: 10px 20px; margin: 10px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        #chartContainer { margin-top: 30px; height: 400px; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .info { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chart.js 기본 테스트</h1>
+        <p>차트 기능이 정상적으로 작동하는지 확인합니다.</p>
+        
+        <button onclick="testChart()">차트 생성 테스트</button>
+        <button data-symbol="AAPL" class="chart-btn">AAPL 차트 (이벤트 리스너)</button>
+        <button onclick="checkChart()">Chart.js 상태 확인</button>
+        
+        <div id="chartContainer">
+            <canvas id="testChart"></canvas>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        console.log('Chart.js 로드됨:', typeof Chart !== 'undefined');
+        
+        function checkChart() {
+            const result = document.getElementById('result');
+            if (typeof Chart === 'undefined') {
+                result.innerHTML = '<div class="result error">❌ Chart.js가 로드되지 않았습니다!</div>';
+            } else {
+                result.innerHTML = '<div class="result success">✅ Chart.js가 정상적으로 로드되었습니다!</div>';
+            }
+        }
+        
+        // 기본 차트 생성 함수
+        function testChart() {
+            console.log('testChart 함수 호출됨');
+            
+            if (typeof Chart === 'undefined') {
+                document.getElementById('result').innerHTML = '<div class="result error">❌ Chart.js가 로드되지 않았습니다!</div>';
+                return;
+            }
+            
+            const ctx = document.getElementById('testChart').getContext('2d');
+            
+            // 기존 차트가 있다면 제거
+            if (window.currentChart) {
+                window.currentChart.destroy();
+            }
+            
+            window.currentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['2020', '2021', '2022', '2023', '2024'],
+                    datasets: [{
+                        label: 'ROE (%)',
+                        data: [15, 18, 22, 25, 28],
+                        borderColor: '#28a745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                        tension: 0.4,
+                        borderWidth: 3
+                    }, {
+                        label: '주가수익률 (%)',
+                        data: [0, 25, 45, 78, 125],
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        tension: 0.4,
+                        borderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '테스트 차트 - ROE vs 주가수익률'
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('result').innerHTML = '<div class="result success">✅ 차트가 성공적으로 생성되었습니다!</div>';
+        }
+        
+        // 클래스 방식 테스트
+        class TestAnalyzer {
+            constructor() {
+                console.log('TestAnalyzer 생성됨');
+                this.currentChart = null;
+            }
+            
+            showChart(symbol) {
+                console.log('showChart 호출됨, symbol:', symbol);
+                document.getElementById('result').innerHTML = `<div class="result info">📊 ${symbol} 차트를 보여줍니다.</div>`;
+                testChart(); // 실제 차트 생성
+            }
+        }
+        
+        // DOM 로딩 완료 후 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM 로딩 완료');
+            
+            const analyzer = new TestAnalyzer();
+            window.analyzer = analyzer;
+            
+            // 이벤트 리스너 방식 테스트
+            document.querySelectorAll('.chart-btn').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const symbol = e.target.getAttribute('data-symbol');
+                    analyzer.showChart(symbol);
+                });
+            });
+            
+            console.log('analyzer 객체:', analyzer);
+            console.log('showChart 메서드 타입:', typeof analyzer.showChart);
+            
+            // 초기 상태 확인
+            checkChart();
+        });
+    </script>
+</body>
+</html>"""
+    return test_html
 
 # 메인 페이지 HTML 직접 반환
 @app.get("/", response_class=HTMLResponse)
@@ -90,7 +325,7 @@ async def serve_index():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROE 기반 장기투자 분석</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <style>
         .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .card { border: none; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
@@ -126,6 +361,21 @@ async def serve_index():
     </nav>
 
     <div class="container-fluid py-4">
+        <!-- 차트 테스트 섹션 -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h5>🔧 차트 기능 테스트</h5>
+                    <button onclick="testBasicChart()" class="btn btn-warning btn-sm me-2">기본 차트 테스트</button>
+                    <button onclick="checkChartJS()" class="btn btn-info btn-sm me-2">Chart.js 상태 확인</button>
+                    <button onclick="debugAndShowChart('AAPL')" class="btn btn-danger btn-sm">차트 디버깅</button>
+                    <div id="testResult" class="mt-2"></div>
+                    <div id="testChartContainer" style="height: 300px; margin-top: 15px; display: none;">
+                        <canvas id="testCanvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
@@ -344,6 +594,7 @@ async def serve_index():
                     tbody.appendChild(row);
                 });
 
+
                 document.getElementById('resultsSection').style.display = 'block';
             }
 
@@ -372,7 +623,7 @@ async def serve_index():
                         <span class="badge ${gradeClass}">${item.investment_score.grade}</span>
                     </td>
                     <td>
-                        <button class="btn btn-chart btn-sm" onclick="analyzer.showChart('${item.stock_info.symbol}')">
+                        <button class="btn btn-chart btn-sm" onclick="debugAndShowChart('${item.stock_info.symbol}')">
                             차트 보기
                         </button>
                     </td>
@@ -452,9 +703,349 @@ async def serve_index():
                     }
                 });
             }
+
+            showChart(symbol) {
+                const stockData = this.analysisData.find(item => item.stock_info.symbol === symbol);
+                if (!stockData) return;
+
+                this.createDualChart(stockData);
+                this.showStockDetails(stockData);
+                
+                document.getElementById('chartSection').style.display = 'block';
+                document.getElementById('detailsSection').style.display = 'block';
+                
+                document.getElementById('chartSection').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            createDualChart(stockData) {
+                // Chart.js 로드 확인
+                if (typeof Chart === 'undefined') {
+                    console.error('Chart.js가 로드되지 않았습니다.');
+                    alert('차트 라이브러리를 로드하는 중입니다. 잠시 후 다시 시도해주세요.');
+                    return;
+                }
+                
+                const ctx = document.getElementById('dualChart').getContext('2d');
+                
+                if (this.currentChart) {
+                    this.currentChart.destroy();
+                }
+
+                const chartData = stockData.chart_data;
+                
+                document.getElementById('chartTitle').textContent = 
+                    `${stockData.stock_info.company_name} (${stockData.stock_info.symbol}) - ROE vs 주가수익률`;
+
+                this.currentChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'ROE (%)',
+                            data: chartData.roe_data,
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            yAxisID: 'y',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }, {
+                            label: '누적 주가수익률 (%)',
+                            data: chartData.return_data,
+                            borderColor: '#007bff',
+                            backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                            yAxisID: 'y1',
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 6,
+                            pointHoverRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        interaction: {
+                            mode: 'index',
+                            intersect: false,
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: '연도',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    }
+                                },
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.1)'
+                                }
+                            },
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'ROE (%)',
+                                    color: '#28a745',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    }
+                                },
+                                ticks: {
+                                    color: '#28a745'
+                                },
+                                grid: {
+                                    color: 'rgba(40, 167, 69, 0.2)'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: '누적 주가수익률 (%)',
+                                    color: '#007bff',
+                                    font: {
+                                        size: 14,
+                                        weight: 'bold'
+                                    }
+                                },
+                                ticks: {
+                                    color: '#007bff'
+                                },
+                                grid: {
+                                    drawOnChartArea: false,
+                                },
+                            },
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'ROE와 주가수익률의 상관관계',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            },
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false,
+                                callbacks: {
+                                    afterBody: function(tooltipItems) {
+                                        const index = tooltipItems[0].dataIndex;
+                                        const investmentValue = chartData.investment_value[index];
+                                        return [``, `💰 1억 투자시: ${investmentValue.toFixed(1)}억원`];
+                                    }
+                                }
+                            },
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                    padding: 20,
+                                    font: {
+                                        size: 12
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    plugins: [{
+                        afterDraw: function(chart) {
+                            const ctx = chart.ctx;
+                            const meta = chart.getDatasetMeta(1);
+                            
+                            ctx.save();
+                            ctx.font = 'bold 15px Arial';
+                            ctx.fillStyle = '#dc3545';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            
+                            meta.data.forEach((point, index) => {
+                                const investmentValue = chartData.investment_value[index];
+                                if (investmentValue) {
+                                    const label = investmentValue.toFixed(1) + '억';
+                                    ctx.fillText(label, point.x, point.y - 8);
+                                }
+                            });
+                            
+                            ctx.restore();
+                        }
+                    }]
+                });
+            }
+
+            showStockDetails(stockData) {
+                const detailsContent = document.getElementById('detailsContent');
+                const correlation = stockData.correlation_analysis;
+                const score = stockData.investment_score;
+                
+                const significanceText = {
+                    'highly_significant': '매우 유의함 (p < 0.01)',
+                    'significant': '유의함 (p < 0.05)',
+                    'moderately_significant': '보통 유의함 (p < 0.1)',
+                    'not_significant': '유의하지 않음 (p ≥ 0.1)',
+                    'insufficient_data': '데이터 부족',
+                    'error': '계산 오류'
+                };
+
+                detailsContent.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>기업 정보</h6>
+                            <ul class="list-unstyled">
+                                <li><strong>회사명:</strong> ${stockData.stock_info.company_name}</li>
+                                <li><strong>심볼:</strong> ${stockData.stock_info.symbol}</li>
+                                <li><strong>섹터:</strong> ${stockData.stock_info.sector || '-'}</li>
+                                <li><strong>시가총액:</strong> ${stockData.stock_info.market_cap ? 
+                                    (stockData.stock_info.market_cap / 1000000000).toFixed(1) + 'B USD' : '-'}</li>
+                            </ul>
+                            
+                            <h6>수익성 지표</h6>
+                            <ul class="list-unstyled">
+                                <li><strong>10년 평균 ROE:</strong> ${stockData.ten_year_roe_avg.toFixed(2)}%</li>
+                                <li><strong>10년 총수익률:</strong> ${stockData.ten_year_return.toFixed(2)}%</li>
+                                <li><strong>연평균 수익률:</strong> ${(stockData.ten_year_return / 10).toFixed(2)}%</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h6>상관관계 분석</h6>
+                            <ul class="list-unstyled">
+                                <li><strong>상관계수:</strong> ${correlation.correlation_coefficient.toFixed(4)}</li>
+                                <li><strong>P-값:</strong> ${correlation.p_value.toFixed(4)}</li>
+                                <li><strong>유의성:</strong> ${significanceText[correlation.significance]}</li>
+                            </ul>
+                            
+                            <h6>투자 점수 상세</h6>
+                            <div class="score-breakdown">
+                                <div class="score-item">
+                                    <span>ROE 일관성</span>
+                                    <span>${score.roe_consistency_score}/25</span>
+                                </div>
+                                <div class="score-item">
+                                    <span>ROE 성장성</span>
+                                    <span>${score.roe_growth_score}/25</span>
+                                </div>
+                                <div class="score-item">
+                                    <span>주가 수익률</span>
+                                    <span>${score.price_return_score}/25</span>
+                                </div>
+                                <div class="score-item">
+                                    <span>상관관계</span>
+                                    <span>${score.correlation_score}/25</span>
+                                </div>
+                                <div class="score-item">
+                                    <span>총점</span>
+                                    <span>${score.total_score}/100 (${score.grade})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
-        const analyzer = new ROEAnalyzer();
+
+        // 디버깅 함수
+        function debugAndShowChart(symbol) {
+            console.log('=== 차트 디버깅 시작 ===');
+            console.log('1. symbol:', symbol);
+            console.log('2. window.analyzer 존재:', !!window.analyzer);
+            console.log('3. analyzer 객체:', window.analyzer);
+            
+            if (window.analyzer) {
+                console.log('4. analyzer의 타입:', typeof window.analyzer);
+                console.log('5. analyzer 프로퍼티들:', Object.getOwnPropertyNames(window.analyzer));
+                console.log('6. showChart 메서드 존재:', 'showChart' in window.analyzer);
+                console.log('7. showChart 타입:', typeof window.analyzer.showChart);
+                
+                if (typeof window.analyzer.showChart === 'function') {
+                    console.log('8. showChart 호출 시도...');
+                    window.analyzer.showChart(symbol);
+                } else {
+                    alert('showChart 메서드가 function이 아닙니다: ' + typeof window.analyzer.showChart);
+                }
+            } else {
+                alert('analyzer 객체가 존재하지 않습니다.');
+            }
+            console.log('=== 차트 디버깅 끝 ===');
+        }
+
+        // 차트 테스트 함수들
+        function checkChartJS() {
+            const result = document.getElementById('testResult');
+            if (typeof Chart === 'undefined') {
+                result.innerHTML = '<div class="alert alert-danger">❌ Chart.js가 로드되지 않았습니다!</div>';
+            } else {
+                result.innerHTML = '<div class="alert alert-success">✅ Chart.js가 정상적으로 로드되었습니다!</div>';
+            }
+        }
+        
+        function testBasicChart() {
+            const result = document.getElementById('testResult');
+            const container = document.getElementById('testChartContainer');
+            
+            if (typeof Chart === 'undefined') {
+                result.innerHTML = '<div class="alert alert-danger">❌ Chart.js가 로드되지 않았습니다!</div>';
+                return;
+            }
+            
+            try {
+                const ctx = document.getElementById('testCanvas').getContext('2d');
+                
+                // 기존 차트 제거
+                if (window.testChart) {
+                    window.testChart.destroy();
+                }
+                
+                window.testChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['2020', '2021', '2022', '2023', '2024'],
+                        datasets: [{
+                            label: 'ROE (%)',
+                            data: [15, 18, 22, 25, 28],
+                            borderColor: '#28a745',
+                            backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                            tension: 0.4,
+                            borderWidth: 3
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+                
+                container.style.display = 'block';
+                result.innerHTML = '<div class="alert alert-success">✅ 차트가 성공적으로 생성되었습니다!</div>';
+                
+            } catch (error) {
+                result.innerHTML = `<div class="alert alert-danger">❌ 차트 생성 오류: ${error.message}</div>`;
+                console.error('차트 생성 오류:', error);
+            }
+        }
+
+        // DOM 로딩 완료 후 실행
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM 로딩 완료');
+            const analyzer = new ROEAnalyzer();
+            window.analyzer = analyzer;  // 글로벌 스코프에 명시적으로 할당
+            console.log('analyzer 객체 생성됨:', analyzer);
+            console.log('showChart 메서드 존재:', typeof analyzer.showChart);
+            
+            // 초기 상태 확인
+            checkChartJS();
+        });
     </script>
 </body>
 </html>"""
@@ -464,28 +1055,28 @@ async def serve_index():
 async def analyze_stocks(request: AnalysisRequest):
     """완전히 작동하는 데모 분석 결과"""
     
-    # 실제 스크리닝 결과를 반영한 확장된 기업 리스트 (20개)
+    # 실제 스크리닝 결과를 반영한 확장된 기업 리스트 (20개) - 주식분할/배당 반영
     demo_companies = [
-        {"name": "Apple Inc.", "symbol": "AAPL", "sector": "Technology", "roe_avg": 164.6, "return": 935.8, "score": 95},
-        {"name": "Microsoft Corporation", "symbol": "MSFT", "sector": "Technology", "roe_avg": 37.2, "return": 958.0, "score": 92},
-        {"name": "Alphabet Inc.", "symbol": "GOOGL", "sector": "Communication Services", "roe_avg": 27.6, "return": 624.9, "score": 88},
-        {"name": "Meta Platforms Inc", "symbol": "META", "sector": "Communication Services", "roe_avg": 27.4, "return": 656.5, "score": 85},
-        {"name": "NVIDIA Corporation", "symbol": "NVDA", "sector": "Technology", "roe_avg": 41.9, "return": 2835.7, "score": 94},
-        {"name": "Johnson & Johnson", "symbol": "JNJ", "sector": "Healthcare", "roe_avg": 30.6, "return": 12.5, "score": 82},
-        {"name": "Visa Inc.", "symbol": "V", "sector": "Financial Services", "roe_avg": 42.5, "return": 19.3, "score": 89},
-        {"name": "UnitedHealth Group", "symbol": "UNH", "sector": "Healthcare", "roe_avg": 22.7, "return": 14.8, "score": 81},
-        {"name": "Procter & Gamble", "symbol": "PG", "sector": "Consumer Defensive", "roe_avg": 30.9, "return": 11.2, "score": 78},
-        {"name": "Mastercard Inc.", "symbol": "MA", "sector": "Financial Services", "roe_avg": 159.0, "return": 21.6, "score": 93},
-        {"name": "Exxon Mobil Corp.", "symbol": "XOM", "sector": "Energy", "roe_avg": 18.1, "return": 8.9, "score": 72},
-        {"name": "AbbVie Inc.", "symbol": "ABBV", "sector": "Healthcare", "roe_avg": 79.8, "return": 13.7, "score": 84},
-        {"name": "ASML Holding", "symbol": "ASML", "sector": "Technology", "roe_avg": 55.0, "return": 22.4, "score": 90},
-        {"name": "The Coca-Cola Company", "symbol": "KO", "sector": "Consumer Defensive", "roe_avg": 41.6, "return": 9.8, "score": 77},
-        {"name": "PepsiCo Inc.", "symbol": "PEP", "sector": "Consumer Defensive", "roe_avg": 50.4, "return": 10.5, "score": 79},
-        {"name": "Thermo Fisher Scientific", "symbol": "TMO", "sector": "Healthcare", "roe_avg": 15.1, "return": 14.2, "score": 76},
-        {"name": "Costco Wholesale Corp.", "symbol": "COST", "sector": "Consumer Defensive", "roe_avg": 28.3, "return": 12.9, "score": 83},
-        {"name": "Walmart Inc.", "symbol": "WMT", "sector": "Consumer Defensive", "roe_avg": 16.7, "return": 8.3, "score": 74},
-        {"name": "Netflix Inc.", "symbol": "NFLX", "sector": "Communication Services", "roe_avg": 28.8, "return": 17.5, "score": 86},
-        {"name": "Accenture plc", "symbol": "ACN", "sector": "Technology", "roe_avg": 28.4, "return": 13.6, "score": 80}
+        {"name": "Apple Inc.", "symbol": "AAPL", "sector": "Technology", "roe_avg": 98.6, "return": 935.8, "score": 95},
+        {"name": "Microsoft Corporation", "symbol": "MSFT", "sector": "Technology", "roe_avg": 31.2, "return": 958.0, "score": 92},
+        {"name": "NVIDIA Corporation", "symbol": "NVDA", "sector": "Technology", "roe_avg": 31.2, "return": 28357.4, "score": 98},
+        {"name": "Alphabet Inc.", "symbol": "GOOGL", "sector": "Communication Services", "roe_avg": 21.8, "return": 624.9, "score": 88},
+        {"name": "Meta Platforms Inc", "symbol": "META", "sector": "Communication Services", "roe_avg": 24.2, "return": 656.5, "score": 85},
+        {"name": "Mastercard Inc.", "symbol": "MA", "sector": "Financial Services", "roe_avg": 59.0, "return": 821.6, "score": 93},
+        {"name": "Visa Inc.", "symbol": "V", "sector": "Financial Services", "roe_avg": 42.5, "return": 719.3, "score": 89},
+        {"name": "ASML Holding", "symbol": "ASML", "sector": "Technology", "roe_avg": 35.2, "return": 822.4, "score": 90},
+        {"name": "AbbVie Inc.", "symbol": "ABBV", "sector": "Healthcare", "roe_avg": 49.8, "return": 313.7, "score": 84},
+        {"name": "UnitedHealth Group", "symbol": "UNH", "sector": "Healthcare", "roe_avg": 22.1, "return": 486.6, "score": 81},
+        {"name": "Johnson & Johnson", "symbol": "JNJ", "sector": "Healthcare", "roe_avg": 28.6, "return": 212.5, "score": 82},
+        {"name": "Procter & Gamble", "symbol": "PG", "sector": "Consumer Defensive", "roe_avg": 25.9, "return": 211.2, "score": 78},
+        {"name": "The Coca-Cola Company", "symbol": "KO", "sector": "Consumer Defensive", "roe_avg": 41.6, "return": 109.8, "score": 77},
+        {"name": "PepsiCo Inc.", "symbol": "PEP", "sector": "Consumer Defensive", "roe_avg": 50.4, "return": 110.5, "score": 79},
+        {"name": "Costco Wholesale Corp.", "symbol": "COST", "sector": "Consumer Defensive", "roe_avg": 28.3, "return": 412.9, "score": 83},
+        {"name": "Netflix Inc.", "symbol": "NFLX", "sector": "Communication Services", "roe_avg": 28.8, "return": 817.5, "score": 86},
+        {"name": "Accenture plc", "symbol": "ACN", "sector": "Technology", "roe_avg": 28.4, "return": 413.6, "score": 80},
+        {"name": "Thermo Fisher Scientific", "symbol": "TMO", "sector": "Healthcare", "roe_avg": 15.1, "return": 414.2, "score": 76},
+        {"name": "Home Depot Inc.", "symbol": "HD", "sector": "Consumer Cyclical", "roe_avg": 45.2, "return": 518.7, "score": 87},
+        {"name": "Broadcom Inc.", "symbol": "AVGO", "sector": "Technology", "roe_avg": 38.9, "return": 1252.3, "score": 91}
     ]
     
     # 조건에 맞는 기업들 필터링
