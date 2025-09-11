@@ -1016,7 +1016,7 @@ async def serve_index():
                             data: chartData.roe_data,
                             borderColor: '#28a745',
                             backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                            yAxisID: 'y',
+                            yAxisID: 'annual_y',
                             tension: 0.4,
                             borderWidth: 3,
                             pointRadius: 6,
@@ -1026,7 +1026,7 @@ async def serve_index():
                             data: annualReturns,
                             borderColor: '#ff6b35',
                             backgroundColor: 'rgba(255, 107, 53, 0.1)',
-                            yAxisID: 'y',
+                            yAxisID: 'annual_y',
                             tension: 0.4,
                             borderWidth: 3,
                             pointRadius: 6,
@@ -1055,7 +1055,7 @@ async def serve_index():
                                     color: 'rgba(0, 0, 0, 0.1)'
                                 }
                             },
-                            y: {
+                            annual_y: {
                                 type: 'linear',
                                 display: true,
                                 position: 'left',
