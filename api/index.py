@@ -572,9 +572,11 @@ async def serve_index():
             }
 
             async performAnalysis(isAutoAnalysis = false) {
+                console.log('performAnalysis 호출됨');
                 const minRoe = parseFloat(document.getElementById('minRoe').value);
                 const years = parseInt(document.getElementById('years').value);
                 const limit = parseInt(document.getElementById('limit').value);
+                console.log('분석 파라미터:', { minRoe, years, limit });
 
                 if (minRoe < 5 || years < 5 || limit < 5) {
                     this.showError('올바른 분석 조건을 입력해주세요.');
@@ -1174,26 +1176,6 @@ async def serve_index():
                 this.currentAnnualChart = new Chart(ctx, chartConfig);
             }
 
-            showStockDetails(stockData) {
-                const detailsContent = document.getElementById('detailsContent');
-                const correlation = stockData.correlation_analysis;
-                const score = stockData.investment_score;
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'top';
-                            
-                            returnMeta.data.forEach((point, index) => {
-                                const returnValue = annualReturns[index];
-                                if (returnValue !== undefined) {
-                                    const label = returnValue.toFixed(1) + '%';
-                                    ctx.fillText(label, point.x, point.y + 8);
-                                }
-                            });
-                            
-                            ctx.restore();
-                        }
-                    }]
-                });
-            }
 
             showStockDetails(stockData) {
                 const detailsContent = document.getElementById('detailsContent');
