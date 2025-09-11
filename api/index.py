@@ -1305,17 +1305,34 @@ async def serve_index():
             const toggleText = document.getElementById('philosophyToggleText');
             const toggleIcon = document.getElementById('philosophyToggleIcon');
             
-            philosophyCollapse.addEventListener('show.bs.collapse', function() {
-                toggleText.textContent = '숨기기';
-                toggleIcon.className = 'bi bi-chevron-up';
-            });
+            console.log('투자철학 요소들:', { philosophyCollapse, toggleText, toggleIcon });
             
-            philosophyCollapse.addEventListener('hide.bs.collapse', function() {
-                toggleText.textContent = '보기';
-                toggleIcon.className = 'bi bi-chevron-down';
-            });
+            if (philosophyCollapse && toggleText && toggleIcon) {
+                philosophyCollapse.addEventListener('show.bs.collapse', function() {
+                    console.log('투자철학 섹션 열림');
+                    toggleText.textContent = '숨기기';
+                    toggleIcon.className = 'bi bi-chevron-up';
+                });
+                
+                philosophyCollapse.addEventListener('hide.bs.collapse', function() {
+                    console.log('투자철학 섹션 닫힘');
+                    toggleText.textContent = '보기';
+                    toggleIcon.className = 'bi bi-chevron-down';
+                });
+                
+                // 버튼 클릭 디버깅
+                const toggleButton = document.querySelector('[data-bs-target="#philosophyContent"]');
+                if (toggleButton) {
+                    toggleButton.addEventListener('click', function() {
+                        console.log('투자철학 토글 버튼 클릭됨');
+                    });
+                }
+            } else {
+                console.error('투자철학 토글 요소들을 찾을 수 없습니다');
+            }
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>"""
     return html_content
