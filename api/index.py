@@ -972,16 +972,21 @@ async def serve_index():
                     return;
                 }
                 
-                const ctx = document.getElementById('annualChart').getContext('2d');
-                
-                // 기존 차트 제거 (강제)
+                // 기존 차트 완전 제거
                 if (this.currentAnnualChart) {
                     this.currentAnnualChart.destroy();
                     this.currentAnnualChart = null;
                 }
                 
-                // 캔버스 클리어
-                ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+                // 캔버스 요소를 새로 생성하여 완전히 초기화
+                const oldCanvas = document.getElementById('annualChart');
+                const newCanvas = document.createElement('canvas');
+                newCanvas.id = 'annualChart';
+                newCanvas.width = oldCanvas.width;
+                newCanvas.height = oldCanvas.height;
+                oldCanvas.parentNode.replaceChild(newCanvas, oldCanvas);
+                
+                const ctx = newCanvas.getContext('2d');
 
                 const chartData = stockData.chart_data;
                 
