@@ -993,9 +993,6 @@ async def serve_index():
                     `${stockData.stock_info.company_name} (${stockData.stock_info.symbol}) - 년평균 ROE vs 년평균 주가수익률`;
 
                 // Chart.js 전역 상태 완전 초기화 (이전 차트 영향 방지)
-                if (Chart.registry) {
-                    Chart.registry.removeScale('annual_y');
-                }
                 
                 // 독립적인 차트 설정을 위한 네임스페이스 생성
                 const chartConfig = {
