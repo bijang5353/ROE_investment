@@ -1109,6 +1109,48 @@ async def serve_index():
                 // 차트 섹션으로 스크롤
                 document.getElementById('chartSection').scrollIntoView({ behavior: 'smooth' });
             }
+
+            createDetailsSection(stockData) {
+                const detailsContent = document.getElementById('detailsContent');
+                if (!detailsContent) return;
+                
+                const score = stockData.investment_score;
+                detailsContent.innerHTML = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>기업 정보</h6>
+                            <p><strong>기업명:</strong> ${stockData.stock_info.company_name}</p>
+                            <p><strong>심볼:</strong> ${stockData.stock_info.symbol}</p>
+                            <p><strong>섹터:</strong> ${stockData.stock_info.sector || '-'}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>투자 점수 상세</h6>
+                            <div class="score-breakdown">
+                                <div class="score-item">
+                                    <span>ROE 일관성</span>
+                                    <span>${score.roe_consistency_score}/25</span>
+                                </div>
+                                <div class="score-item">
+                                    <span>ROE 성장성</span>
+                                    <span>${score.roe_growth_score}/25</span>
+                                </div>
+                                <div class="score-item">
+                                    <span>주가 수익률</span>
+                                    <span>${score.price_return_score}/25</span>
+                                </div>
+                                <div class="score-item">
+                                    <span>상관관계</span>
+                                    <span>${score.correlation_score}/25</span>
+                                </div>
+                                <div class="score-item">
+                                    <span>총점</span>
+                                    <span>${score.total_score}/100 (${score.grade})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
 
