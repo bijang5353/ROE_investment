@@ -325,6 +325,7 @@ async def serve_index():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROE 기반 장기투자 분석</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
     <style>
         .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
@@ -363,6 +364,61 @@ async def serve_index():
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">📈 투자 철학</h5>
+                            <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#philosophyContent" aria-expanded="false" aria-controls="philosophyContent">
+                                <span id="philosophyToggleText">보기</span> <i class="bi bi-chevron-down" id="philosophyToggleIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapse" id="philosophyContent">
+                        <div class="card-body">
+                            <div class="philosophy-content">
+                                <h4 class="text-primary mb-3">ROE와 복리수익의 마법</h4>
+                                
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <h6 class="text-success"><i class="bi bi-lightbulb"></i> 간단한 원리</h6>
+                                        <p class="text-muted">ROE가 높은 기업에 장기투자하면, <strong class="text-primary">ROE(%)와 거의 비슷한 연평균 수익률</strong>을 얻을 수 있습니다.</p>
+                                        
+                                        <h6 class="text-success mt-3"><i class="bi bi-graph-up"></i> 복리의 힘</h6>
+                                        <ul class="list-unstyled">
+                                            <li>• ROE 15% 기업 → 연평균 약 <span class="badge bg-success">15%</span> 수익률 기대</li>
+                                            <li>• ROE 20% 기업 → 연평균 약 <span class="badge bg-success">20%</span> 수익률 기대</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <h6 class="text-warning"><i class="bi bi-clock-history"></i> 시간이 만드는 기적</h6>
+                                        <div class="bg-light p-3 rounded mb-3">
+                                            <p class="mb-2"><strong>5년 투자시:</strong></p>
+                                            <ul class="list-unstyled small">
+                                                <li>• 100만원 → ROE 15% 기업: 약 <span class="text-primary fw-bold">200만원</span></li>
+                                                <li>• 100만원 → ROE 20% 기업: 약 <span class="text-success fw-bold">250만원</span></li>
+                                            </ul>
+                                        </div>
+                                        <div class="bg-light p-3 rounded">
+                                            <p class="mb-2"><strong>10년 투자시:</strong></p>
+                                            <ul class="list-unstyled small">
+                                                <li>• 100만원 → ROE 15% 기업: 약 <span class="text-primary fw-bold">400만원</span></li>
+                                                <li>• 100만원 → ROE 20% 기업: 약 <span class="text-success fw-bold">620만원</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="alert alert-info border-0">
+                                    <h6 class="alert-heading"><i class="bi bi-gem"></i> 핵심 메시지</h6>
+                                    <p class="mb-0"><em>"좋은 기업(고ROE)을 사서 오래 들고 있으면, 복리의 힘으로 돈이 눈덩이처럼 불어난다"</em></p>
+                                    <small class="text-muted">시장이 일시적으로 흔들려도, 결국 기업의 진짜 실력(ROE)만큼 수익률이 따라옵니다.</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="card-title mb-0">분석 설정</h5>
@@ -1185,6 +1241,21 @@ async def serve_index():
         document.addEventListener('DOMContentLoaded', function() {
             const analyzer = new ROEAnalyzer();
             window.analyzer = analyzer;
+            
+            // 투자 철학 토글 기능
+            const philosophyCollapse = document.getElementById('philosophyContent');
+            const toggleText = document.getElementById('philosophyToggleText');
+            const toggleIcon = document.getElementById('philosophyToggleIcon');
+            
+            philosophyCollapse.addEventListener('show.bs.collapse', function() {
+                toggleText.textContent = '숨기기';
+                toggleIcon.className = 'bi bi-chevron-up';
+            });
+            
+            philosophyCollapse.addEventListener('hide.bs.collapse', function() {
+                toggleText.textContent = '보기';
+                toggleIcon.className = 'bi bi-chevron-down';
+            });
         });
     </script>
 </body>
