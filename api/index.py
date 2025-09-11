@@ -1318,8 +1318,16 @@ async def serve_index():
 
         // DOM 로딩 완료 후 실행
         document.addEventListener('DOMContentLoaded', function() {
-            const analyzer = new ROEAnalyzer();
-            window.analyzer = analyzer;
+            console.log('DOM 로딩 완료');
+            try {
+                const analyzer = new ROEAnalyzer();
+                window.analyzer = analyzer;
+                console.log('ROEAnalyzer 생성 성공');
+                console.log('performAnalysis 메서드:', typeof analyzer.performAnalysis);
+                console.log('showChart 메서드:', typeof analyzer.showChart);
+            } catch (error) {
+                console.error('ROEAnalyzer 생성 중 오류:', error);
+            }
             
             // 투자 철학 토글 기능
             const philosophyCollapse = document.getElementById('philosophyContent');
