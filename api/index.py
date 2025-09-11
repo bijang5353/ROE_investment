@@ -925,19 +925,37 @@ async def serve_index():
                     plugins: [{
                         afterDraw: function(chart) {
                             const ctx = chart.ctx;
-                            const meta = chart.getDatasetMeta(1);
                             
+                            // ROE 데이터 라벨 (첫 번째 데이터셋)
+                            const roeMeta = chart.getDatasetMeta(0);
                             ctx.save();
-                            ctx.font = 'bold 15px Arial';
-                            ctx.fillStyle = '#dc3545';
+                            ctx.font = 'bold 12px Arial';
+                            ctx.fillStyle = '#28a745';
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'bottom';
                             
-                            meta.data.forEach((point, index) => {
+                            roeMeta.data.forEach((point, index) => {
+                                const roeValue = chartData.roe_data[index];
+                                if (roeValue !== undefined) {
+                                    const label = roeValue.toFixed(1) + '%';
+                                    ctx.fillText(label, point.x, point.y - 8);
+                                }
+                            });
+                            ctx.restore();
+                            
+                            // 투자 값 라벨 (두 번째 데이터셋 - 기존 코드)
+                            const returnMeta = chart.getDatasetMeta(1);
+                            ctx.save();
+                            ctx.font = 'bold 12px Arial';
+                            ctx.fillStyle = '#dc3545';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'top';
+                            
+                            returnMeta.data.forEach((point, index) => {
                                 const investmentValue = chartData.investment_value[index];
                                 if (investmentValue) {
                                     const label = investmentValue.toFixed(1) + '억';
-                                    ctx.fillText(label, point.x, point.y - 8);
+                                    ctx.fillText(label, point.x, point.y + 8);
                                 }
                             });
                             
@@ -1081,7 +1099,47 @@ async def serve_index():
                                 }
                             }
                         }
-                    }
+                    },
+                    plugins: [{
+                        afterDraw: function(chart) {
+                            const ctx = chart.ctx;
+                            
+                            // ROE 데이터 라벨 (첫 번째 데이터셋)
+                            const roeMeta = chart.getDatasetMeta(0);
+                            ctx.save();
+                            ctx.font = 'bold 11px Arial';
+                            ctx.fillStyle = '#28a745';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            
+                            roeMeta.data.forEach((point, index) => {
+                                const roeValue = chartData.roe_data[index];
+                                if (roeValue !== undefined) {
+                                    const label = roeValue.toFixed(1) + '%';
+                                    ctx.fillText(label, point.x, point.y - 8);
+                                }
+                            });
+                            ctx.restore();
+                            
+                            // 년평균 수익률 라벨 (두 번째 데이터셋)
+                            const returnMeta = chart.getDatasetMeta(1);
+                            ctx.save();
+                            ctx.font = 'bold 11px Arial';
+                            ctx.fillStyle = '#ff6b35';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'top';
+                            
+                            returnMeta.data.forEach((point, index) => {
+                                const returnValue = annualReturns[index];
+                                if (returnValue !== undefined) {
+                                    const label = returnValue.toFixed(1) + '%';
+                                    ctx.fillText(label, point.x, point.y + 8);
+                                }
+                            });
+                            
+                            ctx.restore();
+                        }
+                    }]
                 });
             }
 
