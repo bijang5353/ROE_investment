@@ -617,7 +617,7 @@ async def serve_index():
                         <span class="badge ${gradeClass}">${item.investment_score.grade}</span>
                     </td>
                     <td>
-                        <button class="btn btn-chart btn-sm" onclick="debugAndShowChart('${item.stock_info.symbol}')">
+                        <button class="btn btn-chart btn-sm" onclick="window.analyzer.showChart('${item.stock_info.symbol}')">
                             차트 보기
                         </button>
                     </td>
@@ -1071,6 +1071,43 @@ async def serve_index():
                         </div>
                     </div>
                 `;
+            }
+
+            showChart(symbol) {
+                console.log('차트 표시 요청:', symbol);
+                
+                if (!this.analysisData || this.analysisData.length === 0) {
+                    console.error('분석 데이터가 없습니다. 먼저 분석을 실행해주세요.');
+                    return;
+                }
+                
+                const stockData = this.analysisData.find(item => item.stock_info.symbol === symbol);
+                if (!stockData) {
+                    console.error('해당 기업의 데이터를 찾을 수 없습니다:', symbol);
+                    return;
+                }
+                
+                // 기존 차트들 정리
+                if (this.dualChart) {
+                    this.dualChart.destroy();
+                    this.dualChart = null;
+                }
+                if (this.annualChart) {
+                    this.annualChart.destroy();
+                    this.annualChart = null;
+                }
+                
+                // 차트 생성
+                this.createDualChart(stockData);
+                this.createAnnualChart(stockData);
+                this.createDetailsSection(stockData);
+                
+                // 섹션들 표시
+                document.getElementById('chartSection').style.display = 'block';
+                document.getElementById('detailsSection').style.display = 'block';
+                
+                // 차트 섹션으로 스크롤
+                document.getElementById('chartSection').scrollIntoView({ behavior: 'smooth' });
             }
         }
 
