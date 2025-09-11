@@ -848,6 +848,19 @@ async def serve_index():
                                     padding: 20,
                                     font: {
                                         size: 12
+                                    },
+                                    generateLabels: function(chart) {
+                                        return chart.data.datasets.map(function(dataset, i) {
+                                            return {
+                                                text: dataset.label,
+                                                fillStyle: dataset.borderColor,
+                                                strokeStyle: dataset.borderColor,
+                                                lineWidth: 2,
+                                                hidden: !chart.isDatasetVisible(i),
+                                                index: i,
+                                                pointStyle: 'line'
+                                            };
+                                        });
                                     }
                                 }
                             }
@@ -995,6 +1008,19 @@ async def serve_index():
                                     padding: 20,
                                     font: {
                                         size: 12
+                                    },
+                                    generateLabels: function(chart) {
+                                        return chart.data.datasets.map(function(dataset, i) {
+                                            return {
+                                                text: dataset.label,
+                                                fillStyle: dataset.borderColor,
+                                                strokeStyle: dataset.borderColor,
+                                                lineWidth: 2,
+                                                hidden: !chart.isDatasetVisible(i),
+                                                index: i,
+                                                pointStyle: 'line'
+                                            };
+                                        });
                                     }
                                 }
                             }
