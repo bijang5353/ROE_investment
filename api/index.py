@@ -1007,7 +1007,13 @@ async def serve_index():
                 document.getElementById('annualChartTitle').textContent = 
                     `${stockData.stock_info.company_name} (${stockData.stock_info.symbol}) - 년평균 ROE vs 년평균 주가수익률`;
 
-                this.currentAnnualChart = new Chart(ctx, {
+                // Chart.js 전역 상태 완전 초기화 (이전 차트 영향 방지)
+                if (Chart.registry) {
+                    Chart.registry.removeScale('annual_y');
+                }
+                
+                // 독립적인 차트 설정을 위한 네임스페이스 생성
+                const chartConfig = {
                     type: 'line',
                     data: {
                         labels: chartData.labels,
@@ -1016,7 +1022,6 @@ async def serve_index():
                             data: chartData.roe_data,
                             borderColor: '#28a745',
                             backgroundColor: 'rgba(40, 167, 69, 0.1)',
-                            yAxisID: 'annual_y',
                             tension: 0.4,
                             borderWidth: 3,
                             pointRadius: 6,
@@ -1026,7 +1031,6 @@ async def serve_index():
                             data: annualReturns,
                             borderColor: '#ff6b35',
                             backgroundColor: 'rgba(255, 107, 53, 0.1)',
-                            yAxisID: 'annual_y',
                             tension: 0.4,
                             borderWidth: 3,
                             pointRadius: 6,
@@ -1038,14 +1042,14 @@ async def serve_index():
                         maintainAspectRatio: false,
                         interaction: {
                             mode: 'index',
-                            intersect: false,
+                            intersect: false
                         },
                         scales: {
                             x: {
                                 display: true,
                                 title: {
                                     display: true,
-                                    text: '연도',
+                                    text: '년도',
                                     font: {
                                         size: 14,
                                         weight: 'bold'
@@ -1055,7 +1059,7 @@ async def serve_index():
                                     color: 'rgba(0, 0, 0, 0.1)'
                                 }
                             },
-                            annual_y: {
+                            y: {
                                 type: 'linear',
                                 display: true,
                                 position: 'left',
@@ -1075,7 +1079,6 @@ async def serve_index():
                                 ticks: {
                                     stepSize: 10,
                                     callback: function(value) {
-                                        console.log('Y축 tick 값:', value, '기업:', stockData.stock_info.symbol);
                                         return value + '%';
                                     }
                                 }
@@ -1084,7 +1087,7 @@ async def serve_index():
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'ROE와 년평균 주가수익률 비교 (같은 스케일)',
+                                text: 'ROE와 년평균 주가수익률 비교 (0-60% 고정)',
                                 font: {
                                     size: 16,
                                     weight: 'bold'
@@ -1152,6 +1155,29 @@ async def serve_index():
                             ctx.save();
                             ctx.font = 'bold 11px Arial';
                             ctx.fillStyle = '#ff6b35';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'top';
+                            
+                            returnMeta.data.forEach((point, index) => {
+                                const returnValue = annualReturns[index];
+                                if (returnValue !== undefined) {
+                                    const label = returnValue.toFixed(1) + '%';
+                                    ctx.fillText(label, point.x, point.y + 8);
+                                }
+                            });
+                            
+                            ctx.restore();
+                        }
+                    }]
+                };
+                
+                this.currentAnnualChart = new Chart(ctx, chartConfig);
+            }
+
+            showStockDetails(stockData) {
+                const detailsContent = document.getElementById('detailsContent');
+                const correlation = stockData.correlation_analysis;
+                const score = stockData.investment_score;
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'top';
                             
