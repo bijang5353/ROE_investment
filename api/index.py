@@ -327,6 +327,7 @@ async def serve_index():
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <style>
         .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .card { border: none; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
@@ -501,16 +502,22 @@ async def serve_index():
                     <h5 class="card-title mb-0" id="chartTitle">ROE vs 누적주가수익률</h5>
                 </div>
                 <div class="card-body">
-                    <canvas id="dualChart"></canvas>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title mb-0" id="annualChartTitle">년평균 ROE vs 년평균 주가수익률</h5>
-                </div>
-                <div class="card-body">
-                    <canvas id="annualChart"></canvas>
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="chart-container">
+                                <h5 class="text-center mb-3">년도별 ROE vs 누적 년평균 수익률 (%)</h5>
+                                <canvas id="roeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="chart-container">
+                                <h5 class="text-center mb-3">년도별 ROE vs 년도별 수익률 (%)</h5>
+                                <canvas id="returnChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -530,7 +537,8 @@ async def serve_index():
         class ROEAnalyzer {
             constructor() {
                 this.apiBaseUrl = window.location.origin;
-                this.currentChart = null;
+                this.roeChart = null;
+                this.returnChart = null;
                 this.analysisData = [];
                 this.autoAnalysisTimer = null;
                 this.hasPerformedInitialAnalysis = false;
@@ -754,26 +762,24 @@ async def serve_index():
                 });
             }
 
-            createDualChart(stockData) {
-                // Chart.js 로드 확인
+            createRoeChart(stockData) {
                 if (typeof Chart === 'undefined') {
                     console.error('Chart.js가 로드되지 않았습니다.');
-                    alert('차트 라이브러리를 로드하는 중입니다. 잠시 후 다시 시도해주세요.');
                     return;
                 }
                 
-                const ctx = document.getElementById('dualChart').getContext('2d');
-                
-                if (this.currentChart) {
-                    this.currentChart.destroy();
+                if (this.roeChart) {
+                    this.roeChart.destroy();
+                    this.roeChart = null;
                 }
 
+                const ctx = document.getElementById('roeChart').getContext('2d');
                 const chartData = stockData.chart_data;
                 
                 document.getElementById('chartTitle').textContent = 
                     `${stockData.stock_info.company_name} (${stockData.stock_info.symbol}) - ROE vs 주가수익률`;
 
-                this.currentChart = new Chart(ctx, {
+                this.roeChart = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: chartData.labels,
@@ -890,19 +896,6 @@ async def serve_index():
                                     padding: 20,
                                     font: {
                                         size: 12
-                                    },
-                                    generateLabels: function(chart) {
-                                        return chart.data.datasets.map(function(dataset, i) {
-                                            return {
-                                                text: dataset.label,
-                                                fillStyle: dataset.borderColor,
-                                                strokeStyle: dataset.borderColor,
-                                                lineWidth: 2,
-                                                hidden: !chart.isDatasetVisible(i),
-                                                index: i,
-                                                pointStyle: 'line'
-                                            };
-                                        });
                                     }
                                 }
                             }
@@ -912,10 +905,10 @@ async def serve_index():
                         afterDraw: function(chart) {
                             const ctx = chart.ctx;
                             
-                            // ROE 데이터 라벨 (첫 번째 데이터셋)
+                            // ROE 데이터 라벨
                             const roeMeta = chart.getDatasetMeta(0);
                             ctx.save();
-                            ctx.font = 'bold 12px Arial';
+                            ctx.font = 'bold 11px Arial';
                             ctx.fillStyle = '#28a745';
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'bottom';
@@ -929,18 +922,18 @@ async def serve_index():
                             });
                             ctx.restore();
                             
-                            // 투자 값 라벨 (두 번째 데이터셋 - 기존 코드)
+                            // 누적 수익률 라벨
                             const returnMeta = chart.getDatasetMeta(1);
                             ctx.save();
-                            ctx.font = 'bold 12px Arial';
-                            ctx.fillStyle = '#dc3545';
+                            ctx.font = 'bold 11px Arial';
+                            ctx.fillStyle = '#007bff';
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'top';
                             
                             returnMeta.data.forEach((point, index) => {
-                                const investmentValue = chartData.investment_value[index];
-                                if (investmentValue) {
-                                    const label = investmentValue.toFixed(1) + '억';
+                                const returnValue = chartData.return_data[index];
+                                if (returnValue !== undefined) {
+                                    const label = returnValue.toFixed(0) + '%';
                                     ctx.fillText(label, point.x, point.y + 8);
                                 }
                             });
@@ -951,51 +944,34 @@ async def serve_index():
                 });
             }
 
-            createAnnualChart(stockData) {
-                
-                // Chart.js 로드 확인
+            createReturnChart(stockData) {
                 if (typeof Chart === 'undefined') {
                     console.error('Chart.js가 로드되지 않았습니다.');
                     return;
                 }
                 
-                // 기존 차트 완전 제거
-                if (this.currentAnnualChart) {
-                    this.currentAnnualChart.destroy();
-                    this.currentAnnualChart = null;
+                if (this.returnChart) {
+                    this.returnChart.destroy();
+                    this.returnChart = null;
                 }
                 
-                // 캔버스 요소를 새로 생성하여 완전히 초기화
-                const oldCanvas = document.getElementById('annualChart');
-                if (!oldCanvas) {
-                    console.error('annualChart 캔버스를 찾을 수 없습니다.');
-                    return;
-                }
-                
-                const newCanvas = document.createElement('canvas');
-                newCanvas.id = 'annualChart';
-                newCanvas.width = oldCanvas.width;
-                newCanvas.height = oldCanvas.height;
-                oldCanvas.parentNode.replaceChild(newCanvas, oldCanvas);
-                
-                const ctx = newCanvas.getContext('2d');
-
+                const ctx = document.getElementById('returnChart').getContext('2d');
                 const chartData = stockData.chart_data;
                 
-                // 누적수익률을 년평균 수익률로 변환
-                const annualReturns = chartData.return_data.map((cumReturn, index) => {
-                    if (index === 0) return 0; // 첫 해는 0%
-                    const years = index;
-                    return years > 0 ? Math.pow((1 + cumReturn / 100), 1 / years) * 100 - 100 : 0;
+                // 년도별 수익률 계산 (전년 대비)
+                const yearlyReturns = chartData.return_data.map((cumReturn, index) => {
+                    if (index === 0) return 0;
+                    if (index === 1) return cumReturn; // 첫 년도는 누적 수익률과 동일
+                    
+                    const currentReturn = cumReturn;
+                    const prevReturn = chartData.return_data[index - 1];
+                    
+                    if (prevReturn === 0) return currentReturn;
+                    const yearlyReturn = ((currentReturn / prevReturn) - 1) * 100;
+                    return yearlyReturn;
                 });
-                
-                document.getElementById('annualChartTitle').textContent = 
-                    `${stockData.stock_info.company_name} (${stockData.stock_info.symbol}) - 년평균 ROE vs 년평균 주가수익률`;
 
-                // Chart.js 전역 상태 완전 초기화 (이전 차트 영향 방지)
-                
-                // 독립적인 차트 설정을 위한 네임스페이스 생성
-                const chartConfig = {
+                this.returnChart = new Chart(ctx, {
                     type: 'line',
                     data: {
                         labels: chartData.labels,
@@ -1009,8 +985,8 @@ async def serve_index():
                             pointRadius: 6,
                             pointHoverRadius: 8
                         }, {
-                            label: '년평균 주가수익률 (%)',
-                            data: annualReturns,
+                            label: '년도별 수익률 (%)',
+                            data: yearlyReturns,
                             borderColor: '#ff6b35',
                             backgroundColor: 'rgba(255, 107, 53, 0.1)',
                             tension: 0.4,
@@ -1031,7 +1007,7 @@ async def serve_index():
                                 display: true,
                                 title: {
                                     display: true,
-                                    text: '년도',
+                                    text: '연도',
                                     font: {
                                         size: 14,
                                         weight: 'bold'
@@ -1044,7 +1020,6 @@ async def serve_index():
                             y: {
                                 type: 'linear',
                                 display: true,
-                                position: 'left',
                                 title: {
                                     display: true,
                                     text: '수익률 (%)',
@@ -1055,21 +1030,13 @@ async def serve_index():
                                 },
                                 grid: {
                                     color: 'rgba(0, 0, 0, 0.1)'
-                                },
-                                min: 0,
-                                max: 60,
-                                ticks: {
-                                    stepSize: 10,
-                                    callback: function(value) {
-                                        return value + '%';
-                                    }
                                 }
                             }
                         },
                         plugins: {
                             title: {
                                 display: true,
-                                text: 'ROE와 년평균 주가수익률 비교 (0-60% 고정)',
+                                text: 'ROE와 년도별 수익률 비교',
                                 font: {
                                     size: 16,
                                     weight: 'bold'
@@ -1077,13 +1044,7 @@ async def serve_index():
                             },
                             tooltip: {
                                 mode: 'index',
-                                intersect: false,
-                                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                                titleColor: '#fff',
-                                bodyColor: '#fff',
-                                borderColor: '#fff',
-                                borderWidth: 1,
-                                cornerRadius: 6
+                                intersect: false
                             },
                             legend: {
                                 display: true,
@@ -1093,19 +1054,6 @@ async def serve_index():
                                     padding: 20,
                                     font: {
                                         size: 12
-                                    },
-                                    generateLabels: function(chart) {
-                                        return chart.data.datasets.map(function(dataset, i) {
-                                            return {
-                                                text: dataset.label,
-                                                fillStyle: dataset.borderColor,
-                                                strokeStyle: dataset.borderColor,
-                                                lineWidth: 2,
-                                                hidden: !chart.isDatasetVisible(i),
-                                                index: i,
-                                                pointStyle: 'line'
-                                            };
-                                        });
                                     }
                                 }
                             }
@@ -1115,7 +1063,7 @@ async def serve_index():
                         afterDraw: function(chart) {
                             const ctx = chart.ctx;
                             
-                            // ROE 데이터 라벨 (첫 번째 데이터셋)
+                            // ROE 데이터 라벨
                             const roeMeta = chart.getDatasetMeta(0);
                             ctx.save();
                             ctx.font = 'bold 11px Arial';
@@ -1132,7 +1080,7 @@ async def serve_index():
                             });
                             ctx.restore();
                             
-                            // 년평균 수익률 라벨 (두 번째 데이터셋)
+                            // 년도별 수익률 라벨
                             const returnMeta = chart.getDatasetMeta(1);
                             ctx.save();
                             ctx.font = 'bold 11px Arial';
@@ -1141,8 +1089,8 @@ async def serve_index():
                             ctx.textBaseline = 'top';
                             
                             returnMeta.data.forEach((point, index) => {
-                                const returnValue = annualReturns[index];
-                                if (returnValue !== undefined) {
+                                const returnValue = yearlyReturns[index];
+                                if (returnValue !== undefined && index > 0) {
                                     const label = returnValue.toFixed(1) + '%';
                                     ctx.fillText(label, point.x, point.y + 8);
                                 }
@@ -1151,9 +1099,7 @@ async def serve_index():
                             ctx.restore();
                         }
                     }]
-                };
-                
-                this.currentAnnualChart = new Chart(ctx, chartConfig);
+                });
             }
 
 
@@ -1241,18 +1187,18 @@ async def serve_index():
                 }
                 
                 // 기존 차트들 정리
-                if (this.dualChart) {
-                    this.dualChart.destroy();
-                    this.dualChart = null;
+                if (this.roeChart) {
+                    this.roeChart.destroy();
+                    this.roeChart = null;
                 }
-                if (this.currentAnnualChart) {
-                    this.currentAnnualChart.destroy();
-                    this.currentAnnualChart = null;
+                if (this.returnChart) {
+                    this.returnChart.destroy();
+                    this.returnChart = null;
                 }
                 
-                // 차트 생성
-                this.createDualChart(stockData);
-                this.createAnnualChart(stockData);
+                // 새로운 이중 차트 시스템 생성
+                this.createRoeChart(stockData);
+                this.createReturnChart(stockData);
                 this.createDetailsSection(stockData);
                 
                 // 섹션들 표시
@@ -1306,7 +1252,10 @@ async def serve_index():
             }
         }
 
-
+        // Chart.js 플러그인 등록
+        if (typeof Chart !== 'undefined' && typeof ChartDataLabels !== 'undefined') {
+            Chart.register(ChartDataLabels);
+        }
 
         // DOM 로딩 완료 후 실행
         document.addEventListener('DOMContentLoaded', function() {
