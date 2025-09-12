@@ -840,8 +840,11 @@ async def serve_index():
                                         weight: 'bold'
                                     }
                                 },
+                                min: 0,
+                                max: 200,
                                 ticks: {
-                                    color: '#28a745'
+                                    color: '#28a745',
+                                    stepSize: 20
                                 },
                                 grid: {
                                     color: 'rgba(40, 167, 69, 0.2)'
@@ -860,8 +863,11 @@ async def serve_index():
                                         weight: 'bold'
                                     }
                                 },
+                                min: 0,
+                                max: 30000,
                                 ticks: {
-                                    color: '#007bff'
+                                    color: '#007bff',
+                                    stepSize: 5000
                                 },
                                 grid: {
                                     drawOnChartArea: false,
@@ -1027,6 +1033,11 @@ async def serve_index():
                                         size: 14,
                                         weight: 'bold'
                                     }
+                                },
+                                min: -100,
+                                max: 300,
+                                ticks: {
+                                    stepSize: 50
                                 },
                                 grid: {
                                     color: 'rgba(0, 0, 0, 0.1)'
