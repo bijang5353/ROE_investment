@@ -12,9 +12,18 @@ class ROEAnalyzer {
     }
 
     initializeEventListeners() {
-        document.getElementById('analyzeBtn').addEventListener('click', () => {
-            this.performAnalysis();
-        });
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        console.log('분석 버튼 요소:', analyzeBtn);
+        
+        if (analyzeBtn) {
+            analyzeBtn.addEventListener('click', () => {
+                console.log('분석 버튼 클릭됨!');
+                this.performAnalysis();
+            });
+            console.log('분석 버튼 이벤트 리스너 등록 완료');
+        } else {
+            console.error('분석 버튼을 찾을 수 없습니다!');
+        }
         
         // 슬라이더 값 실시간 업데이트 및 자동 분석
         document.getElementById('minRoe').addEventListener('input', (e) => {
@@ -86,14 +95,17 @@ class ROEAnalyzer {
             });
 
             const result = await response.json();
+            console.log('분석 결과:', result); // 디버깅용
             
             if (result.success) {
                 this.analysisData = result.data;
+                console.log('분석 데이터:', result.data); // 디버깅용
                 this.displayResults(result.data);
                 if (!isAutoAnalysis) {
                     this.showSuccess(`${result.data.length}개 기업 분석이 완료되었습니다.`);
                 }
             } else {
+                console.error('분석 실패:', result); // 디버깅용
                 if (!isAutoAnalysis) {
                     this.showError(result.message || '분석 중 오류가 발생했습니다.');
                 }
@@ -132,30 +144,36 @@ class ROEAnalyzer {
     createTableRow(item, rank) {
         const tr = document.createElement('tr');
         
-        const gradeClass = this.getGradeClass(item.investment_score.grade);
-        const correlationClass = this.getCorrelationClass(item.correlation_analysis.correlation_coefficient);
+        const gradeClass = this.getGradeClass(item.investment_score?.grade);
+        const correlationClass = this.getCorrelationClass(item.correlation_analysis?.correlation_coefficient);
         
+        // 안전한 데이터 접근을 위한 헬퍼 함수
+        const safeFixed = (value, decimals) => {
+            return (value != null && !isNaN(value)) ? Number(value).toFixed(decimals) : '0.00';
+        };
+
         tr.innerHTML = `
             <td>${rank}</td>
             <td>
-                <strong>${item.stock_info.company_name}</strong><br>
-                <small class="text-muted">${item.stock_info.symbol}</small>
+                <strong>${item.stock_info?.company_name || 'N/A'}</strong><br>
+                <small class="text-muted">${item.stock_info?.symbol || 'N/A'}</small>
             </td>
-            <td>${item.stock_info.sector || '-'}</td>
-            <td>${item.ten_year_roe_avg.toFixed(2)}%</td>
-            <td>${item.ten_year_return.toFixed(2)}%</td>
-            <td class="${correlationClass}">${item.correlation_analysis.correlation_coefficient.toFixed(3)}</td>
+            <td>${item.stock_info?.sector || '-'}</td>
+            <td>${safeFixed(item.five_year_roe_avg, 2)}%</td>
+            <td>${safeFixed(item.ten_year_return, 2)}%</td>
+            <td class="${correlationClass}">${safeFixed(item.correlation_analysis?.correlation_coefficient, 3)}</td>
             <td>
                 <span class="badge ${gradeClass}">
-                    ${item.investment_score.total_score.toFixed(0)}점
+                    ${safeFixed(item.investment_score?.total_score, 0)}점
                 </span>
             </td>
             <td>
-                <span class="badge ${gradeClass}">${item.investment_score.grade}</span>
+                <span class="badge ${gradeClass}">${item.investment_score?.grade || 'N/A'}</span>
             </td>
             <td>
-                <button class="btn btn-chart btn-sm" onclick="analyzer.showChart('${item.stock_info.symbol}')">
-                    차트 보기
+                <button class="btn-chart" onclick="analyzer.showChart('${item.stock_info?.symbol || ''}')">
+                    <i class="fas fa-chart-line"></i>
+                    차트보기
                 </button>
             </td>
         `;
@@ -164,6 +182,7 @@ class ROEAnalyzer {
     }
 
     getGradeClass(grade) {
+        if (!grade) return 'bg-secondary';
         const gradeMap = {
             'A+': 'grade-A-plus',
             'A': 'grade-A',
@@ -177,6 +196,7 @@ class ROEAnalyzer {
     }
 
     getCorrelationClass(correlation) {
+        if (correlation == null || isNaN(correlation)) return 'correlation-neutral';
         if (correlation > 0.3) return 'correlation-positive';
         if (correlation < -0.3) return 'correlation-negative';
         return 'correlation-neutral';
@@ -394,7 +414,7 @@ class ROEAnalyzer {
                     
                     <h6>수익성 지표</h6>
                     <ul class="list-unstyled">
-                        <li><strong>10년 평균 ROE:</strong> ${stockData.ten_year_roe_avg.toFixed(2)}%</li>
+                        <li><strong>5년 평균 ROE:</strong> ${stockData.five_year_roe_avg.toFixed(2)}%</li>
                         <li><strong>10년 총수익률:</strong> ${stockData.ten_year_return.toFixed(2)}%</li>
                         <li><strong>연평균 수익률:</strong> ${(stockData.ten_year_return / 10).toFixed(2)}%</li>
                     </ul>
@@ -454,7 +474,7 @@ class ROEAnalyzer {
         alertDiv.className = 'error-message';
         alertDiv.textContent = message;
         
-        const container = document.querySelector('.container-fluid');
+        const container = document.querySelector('.container');
         container.insertBefore(alertDiv, container.firstChild);
         
         setTimeout(() => {
@@ -470,7 +490,7 @@ class ROEAnalyzer {
         alertDiv.className = 'success-message';
         alertDiv.textContent = message;
         
-        const container = document.querySelector('.container-fluid');
+        const container = document.querySelector('.container');
         container.insertBefore(alertDiv, container.firstChild);
         
         setTimeout(() => {
@@ -491,4 +511,6 @@ class ROEAnalyzer {
 }
 
 // 전역 인스턴스 생성
+console.log('JavaScript 로드됨!');
 const analyzer = new ROEAnalyzer();
+console.log('ROEAnalyzer 인스턴스 생성 완료!');
