@@ -841,10 +841,10 @@ async def serve_index():
                                     }
                                 },
                                 min: 0,
-                                max: 200,
+                                max: 100,
                                 ticks: {
                                     color: '#28a745',
-                                    stepSize: 20
+                                    stepSize: 10
                                 },
                                 grid: {
                                     color: 'rgba(40, 167, 69, 0.2)'
@@ -864,10 +864,10 @@ async def serve_index():
                                     }
                                 },
                                 min: 0,
-                                max: 30000,
+                                max: 2000,
                                 ticks: {
                                     color: '#007bff',
-                                    stepSize: 5000
+                                    stepSize: 200
                                 },
                                 grid: {
                                     drawOnChartArea: false,
