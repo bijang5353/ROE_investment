@@ -560,6 +560,11 @@
                 const ctx = document.getElementById('roeChart').getContext('2d');
                 const chartData = stockData.chart_data;
                 
+                // 누적 주가수익률 데이터를 90%로 클리핑
+                const clippedReturnData = chartData.return_data.map(value => 
+                    value > 90 ? 90 : value
+                );
+                
                 document.getElementById('chartTitle').textContent = 
                     `${stockData.stock_info.company_name} (${stockData.stock_info.symbol}) - ROE vs 주가수익률`;
 
@@ -579,7 +584,7 @@
                             pointHoverRadius: 8
                         }, {
                             label: '누적 주가수익률 (%)',
-                            data: chartData.return_data,
+                            data: clippedReturnData,
                             borderColor: '#dc2626',
                             backgroundColor: 'rgba(220, 38, 38, 0.1)',
                             yAxisID: 'y1',
@@ -753,7 +758,7 @@
                             ctx.textBaseline = 'top';
                             
                             returnMeta.data.forEach((point, index) => {
-                                const returnValue = chartData.return_data[index];
+                                const returnValue = clippedReturnData[index];
                                 if (returnValue !== undefined) {
                                     const label = returnValue.toFixed(0) + '%';
                                     ctx.fillText(label, point.x, point.y + 8);
