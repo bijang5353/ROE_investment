@@ -113,6 +113,16 @@
         .spinner-border { color: #2563eb; }
         #chartSection, #detailsSection { margin-top: 30px; }
         #dualChart { height: 400px; }
+        .chart-container { 
+            position: relative; 
+            height: 400px; 
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .chart-container canvas {
+            max-height: 400px !important;
+            height: 400px !important;
+        }
     </style>
 </head>
 <body>
@@ -581,7 +591,8 @@
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false,
+                        maintainAspectRatio: true,
+                        aspectRatio: 2,
                         interaction: {
                             mode: 'index',
                             intersect: false,
@@ -619,11 +630,20 @@
                                 beginAtZero: true,
                                 suggestedMin: 0,
                                 suggestedMax: 100,
+                                bounds: 'ticks',
+                                afterFit: function(scaleInstance) {
+                                    scaleInstance.height = 300;
+                                },
                                 ticks: {
                                     color: '#3b82f6',
                                     stepSize: 10,
                                     min: 0,
-                                    max: 100
+                                    max: 100,
+                                    callback: function(value) {
+                                        if (value < 0) return null;
+                                        if (value > 100) return null;
+                                        return value + '%';
+                                    }
                                 },
                                 grid: {
                                     color: 'rgba(59, 130, 246, 0.2)'
@@ -647,11 +667,20 @@
                                 beginAtZero: true,
                                 suggestedMin: 0,
                                 suggestedMax: 2000,
+                                bounds: 'ticks',
+                                afterFit: function(scaleInstance) {
+                                    scaleInstance.height = 300;
+                                },
                                 ticks: {
                                     color: '#1d4ed8',
                                     stepSize: 200,
                                     min: 0,
-                                    max: 2000
+                                    max: 2000,
+                                    callback: function(value) {
+                                        if (value < 0) return null;
+                                        if (value > 2000) return null;
+                                        return value + '%';
+                                    }
                                 },
                                 grid: {
                                     drawOnChartArea: false,
@@ -787,7 +816,8 @@
                     },
                     options: {
                         responsive: true,
-                        maintainAspectRatio: false,
+                        maintainAspectRatio: true,
+                        aspectRatio: 2,
                         interaction: {
                             mode: 'index',
                             intersect: false
@@ -823,10 +853,19 @@
                                 beginAtZero: false,
                                 suggestedMin: -100,
                                 suggestedMax: 300,
+                                bounds: 'ticks',
+                                afterFit: function(scaleInstance) {
+                                    scaleInstance.height = 300;
+                                },
                                 ticks: {
                                     stepSize: 50,
                                     min: -100,
-                                    max: 300
+                                    max: 300,
+                                    callback: function(value) {
+                                        if (value < -100) return null;
+                                        if (value > 300) return null;
+                                        return value + '%';
+                                    }
                                 },
                                 grid: {
                                     color: 'rgba(59, 130, 246, 0.1)'
