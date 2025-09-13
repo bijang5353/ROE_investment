@@ -580,8 +580,8 @@
                         }, {
                             label: '누적 주가수익률 (%)',
                             data: chartData.return_data,
-                            borderColor: '#1d4ed8',
-                            backgroundColor: 'rgba(29, 78, 216, 0.1)',
+                            borderColor: '#dc2626',
+                            backgroundColor: 'rgba(220, 38, 38, 0.1)',
                             yAxisID: 'y1',
                             tension: 0.4,
                             borderWidth: 3,
@@ -656,29 +656,29 @@
                                 title: {
                                     display: true,
                                     text: '누적 주가수익률 (%)',
-                                    color: '#1d4ed8',
+                                    color: '#dc2626',
                                     font: {
                                         size: 14,
                                         weight: 'bold'
                                     }
                                 },
                                 min: 0,
-                                max: 2000,
+                                max: 90,
                                 beginAtZero: true,
                                 suggestedMin: 0,
-                                suggestedMax: 2000,
+                                suggestedMax: 90,
                                 bounds: 'ticks',
                                 afterFit: function(scaleInstance) {
                                     scaleInstance.height = 300;
                                 },
                                 ticks: {
-                                    color: '#1d4ed8',
-                                    stepSize: 200,
+                                    color: '#dc2626',
+                                    stepSize: 10,
                                     min: 0,
-                                    max: 2000,
+                                    max: 90,
                                     callback: function(value) {
                                         if (value < 0) return null;
-                                        if (value > 2000) return null;
+                                        if (value > 90) return null;
                                         return value + '%';
                                     }
                                 },
@@ -748,7 +748,7 @@
                             const returnMeta = chart.getDatasetMeta(1);
                             ctx.save();
                             ctx.font = 'bold 11px Arial';
-                            ctx.fillStyle = '#1d4ed8';
+                            ctx.fillStyle = '#dc2626';
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'top';
                             
@@ -809,8 +809,8 @@
                         }, {
                             label: '년도별 수익률 (%)',
                             data: yearlyReturns,
-                            borderColor: '#1d4ed8',
-                            backgroundColor: 'rgba(29, 78, 216, 0.1)',
+                            borderColor: '#dc2626',
+                            backgroundColor: 'rgba(220, 38, 38, 0.1)',
                             tension: 0.4,
                             borderWidth: 3,
                             pointRadius: 6,
@@ -929,7 +929,7 @@
                             const returnMeta = chart.getDatasetMeta(1);
                             ctx.save();
                             ctx.font = 'bold 11px Arial';
-                            ctx.fillStyle = '#1d4ed8';
+                            ctx.fillStyle = '#dc2626';
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'top';
                             
