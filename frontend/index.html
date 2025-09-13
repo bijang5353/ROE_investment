@@ -817,6 +817,13 @@
                     const yearlyReturn = ((currentReturn / prevReturn) - 1) * 100;
                     return yearlyReturn;
                 });
+                
+                // 년도별 수익률 데이터의 최대/최소값을 계산하여 Y축 범위 동적 설정
+                const allData = [...chartData.roe_data, ...yearlyReturns];
+                const minValue = Math.min(...allData);
+                const maxValue = Math.max(...allData);
+                const dynamicMinReturn = Math.floor(minValue - Math.abs(minValue) * 0.1); // 10% 여유분
+                const dynamicMaxReturn = Math.ceil(maxValue + Math.abs(maxValue) * 0.1); // 10% 여유분
 
                 this.returnChart = new Chart(ctx, {
                     type: 'line',
@@ -876,23 +883,23 @@
                                         weight: 'bold'
                                     }
                                 },
-                                min: -100,
-                                max: 300,
+                                min: dynamicMinReturn,
+                                max: dynamicMaxReturn,
                                 beginAtZero: false,
-                                suggestedMin: -100,
-                                suggestedMax: 300,
+                                suggestedMin: dynamicMinReturn,
+                                suggestedMax: dynamicMaxReturn,
                                 bounds: 'ticks',
                                 afterFit: function(scaleInstance) {
                                     scaleInstance.height = 300;
                                 },
                                 ticks: {
-                                    stepSize: 50,
-                                    min: -100,
-                                    max: 300,
+                                    stepSize: Math.ceil((dynamicMaxReturn - dynamicMinReturn) / 10),
+                                    min: dynamicMinReturn,
+                                    max: dynamicMaxReturn,
                                     callback: function(value) {
-                                        if (value < -100) return null;
-                                        if (value > 300) return null;
-                                        return value + '%';
+                                        if (value < dynamicMinReturn) return null;
+                                        if (value > dynamicMaxReturn) return null;
+                                        return value.toFixed(0) + '%';
                                     }
                                 },
                                 grid: {

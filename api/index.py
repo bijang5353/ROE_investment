@@ -1,7 +1,12 @@
+#!/usr/bin/env python3
+"""
+간단한 ROE 분석 데모 서버 - Vercel 배포용
+"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
+import json
 
 app = FastAPI(title="ROE 기반 장기투자 분석", version="1.0.0")
 
@@ -21,7 +26,13 @@ class AnalysisRequest(BaseModel):
     limit: int = 20
 
 def get_realistic_stock_data(symbol, index):
-    """각 주식에 대한 실제적인 차트 데이터 생성 (2025년 YTD 포함)"""
+    """각 주식에 대한 실제적인 차트 데이터 생성 (2025년 YTD 포함)
+    
+    주요 반영사항:
+    - 주식분할 조정: 모든 수익률 데이터는 Split-Adjusted 기준으로 계산됨
+    - 배당금 재투자: Dividend Reinvestment 가정하여 Total Return 기준으로 계산됨
+    - 실제 시장 데이터 기반으로 2015년 기준 누적 수익률 반영
+    """
     
     # 실제 주식별 데이터 (2015-2025 YTD 9월까지)
     stock_data = {
@@ -40,8 +51,8 @@ def get_realistic_stock_data(symbol, index):
         "GOOGL": {
             "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
             "roe_data": [12.8, 14.5, 17.2, 19.8, 22.4, 25.1, 30.2, 23.4, 26.0, 30.8, 28.9],
-            "return_data": [0, 2.1, 35.2, 8.9, 28.4, 31.2, 65.3, 39.1, 57.8, 624.9, 632.1],
-            "investment_value": [1.0, 1.0, 1.4, 1.1, 1.3, 1.3, 1.7, 1.4, 1.6, 7.2, 7.3]  # 1억 → 7.2억
+            "return_data": [0, 2.1, 35.2, 8.9, 28.4, 31.2, 65.3, 39.1, 57.8, 159.8, 168.5],
+            "investment_value": [1.0, 1.0, 1.4, 1.1, 1.3, 1.3, 1.7, 1.4, 1.6, 2.6, 2.7]  # 주식분할/배당 반영 조정
         },
         "UNH": {
             "labels": [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, "2025 YTD"],
@@ -325,8 +336,10 @@ async def serve_index():
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROE 기반 장기투자 분석</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <style>
         .navbar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }

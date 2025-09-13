@@ -13,7 +13,15 @@
       "Bash(git add:*)",
       "Bash(git remote add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(vercel:*)",
+      "WebFetch(domain:roe-investment-fresh-ql1o7fbt4-bijang5353-6948s-projects.vercel.app)",
+      "WebFetch(domain:roe-investment-fresh.vercel.app)",
+      "Bash(timeout 5 curl -s http://localhost:8001)",
+      "WebFetch(domain:roe-investment-fresh-gilffvck4-bijang5353-6948s-projects.vercel.app)",
+      "Bash(timeout 5 curl -s http://localhost:8002)",
+      "WebFetch(domain:roe-investment-fresh-p3jm2ojl6-bijang5353-6948s-projects.vercel.app)",
+      "Bash(timeout:*)"
     ],
     "deny": [],
     "ask": []

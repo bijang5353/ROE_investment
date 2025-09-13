@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROE 기반 장기투자 분석</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/static/styles.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+</head>
+<body>
+    <nav class="modern-navbar">
+        <div class="container-fluid">
+            <div class="navbar-content">
+                <div class="brand-section">
+                    <i class="fas fa-chart-line brand-icon"></i>
+                    <span class="brand-text">ROE Investment Analytics</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="#" class="nav-item">대시보드</a>
+                    <a href="#" class="nav-item">분석</a>
+                    <a href="#" class="nav-item">리포트</a>
+                    <button class="btn-modern btn-outline-modern" onclick="exportResults()">
+                        <i class="fas fa-download"></i>
+                        내보내기
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">스마트 투자의 시작</h1>
+                <p class="hero-subtitle">ROE 기반 장기투자 전략으로 안정적인 수익률을 실현하세요</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">15%+</div>
+                        <div class="stat-label">평균 ROE</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">10년</div>
+                        <div class="stat-label">검증 기간</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">분석 기업</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="main-content">
+        <div class="container py-3">
+            <!-- 투자철학 토글 섹션 -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="philosophy-card">
+                        <div class="philosophy-header" data-bs-toggle="collapse" data-bs-target="#philosophyContent" aria-expanded="false" aria-controls="philosophyContent">
+                            <div class="philosophy-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <div class="philosophy-title">
+                                <h4>💡 신나구로의 투자철학</h4>
+                                <p>ROE와 복리수익의 마법을 알아보세요</p>
+                            </div>
+                            <div class="toggle-icon">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="collapse" id="philosophyContent">
+                            <div class="philosophy-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="philosophy-section">
+                                            <h5><i class="fas fa-chart-line text-primary"></i> 간단한 원리</h5>
+                                            <p>ROE가 높은 기업에 장기투자하면, <strong>ROE(%)와 거의 비슷한 연평균 수익률</strong>을 얻을 수 있습니다.</p>
+                                            
+                                            <h5><i class="fas fa-coins text-warning"></i> 복리의 힘</h5>
+                                            <ul>
+                                                <li>ROE 15% 기업 → 연평균 약 15% 수익률 기대</li>
+                                                <li>ROE 20% 기업 → 연평균 약 20% 수익률 기대</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="philosophy-section">
+                                            <h5><i class="fas fa-clock text-success"></i> 시간이 만드는 기적</h5>
+                                            <div class="time-comparison">
+                                                <div class="time-item">
+                                                    <strong>5년 투자시:</strong>
+                                                    <ul>
+                                                        <li>100만원 → ROE 15% 기업: 약 <span class="highlight">200만원</span></li>
+                                                        <li>100만원 → ROE 20% 기업: 약 <span class="highlight">250만원</span></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="time-item">
+                                                    <strong>10년 투자시:</strong>
+                                                    <ul>
+                                                        <li>100만원 → ROE 15% 기업: 약 <span class="highlight">400만원</span></li>
+                                                        <li>100만원 → ROE 20% 기업: 약 <span class="highlight">620만원</span></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <div class="key-message">
+                                            <h5><i class="fas fa-star text-warning"></i> 핵심 메시지</h5>
+                                            <blockquote class="philosophy-quote">
+                                                "좋은 기업(고ROE)을 사서 오래 들고 있으면, 복리의 힘으로 돈이 눈덩이처럼 불어난다"
+                                            </blockquote>
+                                            <p class="text-muted">시장이 일시적으로 흔들려도, 결국 기업의 진짜 실력(ROE)만큼 수익률이 따라옵니다.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="analysis-card">
+                        <div class="card-header-modern">
+                            <div class="header-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <div class="header-content">
+                                <h3 class="card-title-modern">분석 설정</h3>
+                                <p class="card-subtitle-modern">투자 분석 조건을 설정하세요</p>
+                            </div>
+                        </div>
+                        <div class="card-body-modern">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group-modern">
+                                        <label for="minRoe" class="form-label-modern">최소 ROE (%): <span id="roeValue" class="value-badge">15</span>%</label>
+                                        <input type="range" class="form-range-modern" id="minRoe" min="5" max="40" value="15" step="1">
+                                        <div class="range-labels">
+                                            <small>5%</small>
+                                            <small>40%</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group-modern">
+                                        <label for="years" class="form-label-modern">지속 년수: <span id="yearsValue" class="value-badge">5</span>년</label>
+                                        <input type="range" class="form-range-modern" id="years" min="5" max="10" value="5" step="1">
+                                        <div class="range-labels">
+                                            <small>5년</small>
+                                            <small>10년</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group-modern">
+                                        <label for="limit" class="form-label-modern">분석 기업 수</label>
+                                        <select class="form-select-modern" id="limit">
+                                            <option value="5">5개</option>
+                                            <option value="10">10개</option>
+                                            <option value="20" selected>20개</option>
+                                            <option value="30">30개</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                    <button type="button" class="btn-modern btn-primary-modern w-100" id="analyzeBtn">
+                                        <i class="fas fa-rocket"></i>
+                                        <span>분석 시작</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="loadingSection" style="display: none;">
+                <div class="col-12">
+                    <div class="loading-card">
+                        <div class="loading-content-modern">
+                            <div class="loading-spinner">
+                                <div class="spinner-modern"></div>
+                            </div>
+                            <h4 class="loading-title">데이터 분석 중</h4>
+                            <p class="loading-text">ROE 데이터를 분석하고 있습니다. 잠시만 기다려주세요...</p>
+                            <div class="loading-progress">
+                                <div class="progress-bar-modern"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="resultsSection" style="display: none;">
+                <div class="col-12">
+                    <div class="results-card">
+                        <div class="card-header-results">
+                            <div class="results-header-content">
+                                <h3 class="results-title">분석 결과</h3>
+                                <p class="results-subtitle">조건에 맞는 우량 기업들을 확인하세요</p>
+                            </div>
+                            <div class="results-badge" id="resultCount">0개 기업</div>
+                        </div>
+                        <div class="card-body-modern">
+                            <div class="table-container">
+                                <table class="table-modern">
+                                    <thead class="table-head-modern">
+                                        <tr>
+                                            <th>순위</th>
+                                            <th>기업명 (심볼)</th>
+                                            <th>섹터</th>
+                                            <th>10년 평균 ROE</th>
+                                            <th>10년 수익률</th>
+                                            <th>상관계수</th>
+                                            <th>투자점수</th>
+                                            <th>등급</th>
+                                            <th>차트</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="resultsTableBody">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="chartSection" style="display: none;">
+                <div class="col-12">
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <div class="chart-header-content">
+                                <h3 class="chart-title" id="chartTitle">11년간 ROE vs 주가수익률 분석 (2015~2025 YTD)</h3>
+                                <p class="chart-subtitle">11년 장기 데이터를 통한 투자 인사이트</p>
+                            </div>
+                        </div>
+                        <div class="card-body-modern">
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="chart-container">
+                                        <h5 class="text-center mb-3">년도별 ROE vs 누적 년평균 수익률 (%)</h5>
+                                        <canvas id="roeChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="chart-container">
+                                        <h5 class="text-center mb-3">년도별 ROE vs 년도별 수익률 (%)</h5>
+                                        <canvas id="returnChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4" id="detailsSection" style="display: none;">
+                <div class="col-12">
+                    <div class="details-card">
+                        <div class="details-header">
+                            <div class="details-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="details-header-content">
+                                <h3 class="details-title">상세 분석 정보</h3>
+                                <p class="details-subtitle">투자 결정을 위한 심화 분석 데이터</p>
+                            </div>
+                        </div>
+                        <div class="card-body-modern" id="detailsContent">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 포트폴리오 관리 섹션 -->
+            <div class="row mt-4" id="portfolioSection" style="display: none;">
+                <div class="col-12">
+                    <div class="analysis-card">
+                        <div class="card-header-modern">
+                            <div class="header-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <div class="header-content">
+                                <h3 class="card-title-modern">내 포트폴리오</h3>
+                                <p class="card-subtitle-modern">선택한 기업들을 포트폴리오로 관리하세요</p>
+                            </div>
+                            <button class="btn-modern btn-secondary-modern" onclick="togglePortfolio()">
+                                <i class="fas fa-eye"></i>
+                                <span>포트폴리오 보기</span>
+                            </button>
+                        </div>
+                        <div class="card-body-modern" id="portfolioContent">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h5><i class="fas fa-list text-primary"></i> 포트폴리오 기업 목록</h5>
+                                    <div id="portfolioList" class="portfolio-list">
+                                        <p class="text-muted">포트폴리오에 추가된 기업이 없습니다.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="portfolio-summary">
+                                        <h5><i class="fas fa-calculator text-success"></i> 포트폴리오 요약</h5>
+                                        <div class="summary-item">
+                                            <span>총 기업 수:</span>
+                                            <strong id="portfolioCount">0</strong>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span>평균 ROE:</span>
+                                            <strong id="portfolioAvgROE">0.0%</strong>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span>예상 10년 수익률:</span>
+                                            <strong id="portfolioExpectedReturn">0.0%</strong>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span>평균 등급:</span>
+                                            <strong id="portfolioAvgGrade">-</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 투자 시뮬레이터 섹션 -->
+            <div class="row mt-4" id="simulatorSection" style="display: none;">
+                <div class="col-12">
+                    <div class="analysis-card">
+                        <div class="card-header-modern">
+                            <div class="header-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="header-content">
+                                <h3 class="card-title-modern">투자 시뮬레이터</h3>
+                                <p class="card-subtitle-modern">포트폴리오 기반 투자 수익 시뮬레이션</p>
+                            </div>
+                        </div>
+                        <div class="card-body-modern">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group-modern">
+                                        <label class="form-label-modern">초기 투자금 (만원)</label>
+                                        <input type="number" class="form-control" id="initialInvestment" value="1000" min="100" step="100">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group-modern">
+                                        <label class="form-label-modern">투자 기간 (년)</label>
+                                        <input type="number" class="form-control" id="investmentPeriod" value="10" min="1" max="20">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 d-flex align-items-end">
+                                    <button class="btn-modern btn-primary-modern w-100" onclick="runSimulation()">
+                                        <i class="fas fa-play"></i>
+                                        시뮬레이션 실행
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row mt-4" id="simulationResults" style="display: none;">
+                                <div class="col-12">
+                                    <div class="simulation-results">
+                                        <h5><i class="fas fa-chart-line text-success"></i> 시뮬레이션 결과</h5>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="result-card">
+                                                    <div class="result-value" id="finalAmount">0만원</div>
+                                                    <div class="result-label">최종 자산</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="result-card">
+                                                    <div class="result-value" id="totalReturn">0만원</div>
+                                                    <div class="result-label">총 수익</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="result-card">
+                                                    <div class="result-value" id="returnRate">0%</div>
+                                                    <div class="result-label">수익률</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="result-card">
+                                                    <div class="result-value" id="annualReturn">0%</div>
+                                                    <div class="result-label">연평균 수익률</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="modern-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <i class="fas fa-chart-line footer-icon"></i>
+                    <div class="footer-text">
+                        <h4>ROE Investment Analytics</h4>
+                        <p>신나구로의 투자철학 기반 ROE와 복리수익률 상관관계 검증 시스템</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h5>서비스</h5>
+                        <a href="#">투자 분석</a>
+                        <a href="#">포트폴리오</a>
+                        <a href="#">리포트</a>
+                    </div>
+                    <div class="link-group">
+                        <h5>지원</h5>
+                        <a href="#">도움말</a>
+                        <a href="#">문의하기</a>
+                        <a href="#">FAQ</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ROE Investment Analytics. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        console.log('인라인 스크립트 실행됨!');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        console.log('분석 버튼 확인:', analyzeBtn);
+        
+        // 직접 분석 함수 구현
+        if (analyzeBtn) {
+            analyzeBtn.addEventListener('click', async function() {
+                console.log('분석 버튼 클릭됨!');
+                
+                // 이미 분석 중이면 무시
+                if (isAnalyzing) {
+                    console.log('이미 분석 중입니다.');
+                    return;
+                }
+                
+                isAnalyzing = true;
+                
+                // 로딩 표시
+                const loadingSection = document.getElementById('loadingSection');
+                const resultsSection = document.getElementById('resultsSection');
+                
+                loadingSection.style.display = 'block';
+                resultsSection.style.display = 'none';
+                
+                try {
+                    console.log('API 요청 준비 중...');
+                    
+                    const requestData = {
+                        min_roe: parseFloat(document.getElementById('minRoe').value),
+                        years: parseInt(document.getElementById('years').value),
+                        limit: parseInt(document.getElementById('limit').value)
+                    };
+                    console.log('요청 데이터:', requestData);
+                    
+                    console.log('fetch 호출 시작...');
+                    
+                    const response = await fetch('http://localhost:8000/analyze', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestData)
+                    });
+                    console.log('fetch 호출 완료!');
+                    
+                    console.log('응답 상태:', response.status, response.statusText);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    console.log('분석 결과:', result);
+                    
+                    if (result.success && result.data) {
+                        console.log('결과 표시 시작...');
+                        displayResults(result.data);
+                    } else {
+                        console.error('분석 실패:', result);
+                        alert('분석 실패: ' + (result.message || '알 수 없는 오류'));
+                    }
+                    
+                } catch (error) {
+                    console.error('네트워크 오류:', error);
+                    alert('네트워크 오류: ' + error.message);
+                } finally {
+                    console.log('로딩 숨김 처리');
+                    loadingSection.style.display = 'none';
+                    isAnalyzing = false; // 분석 완료 후 플래그 해제
+                }
+            });
+        }
+        
+        function displayResults(data) {
+            console.log('displayResults 함수 실행, 데이터:', data);
+            
+            const tbody = document.getElementById('resultsTableBody');
+            const resultCount = document.getElementById('resultCount');
+            const resultsSection = document.getElementById('resultsSection');
+            
+            console.log('테이블 요소들:', { tbody, resultCount, resultsSection });
+            
+            if (!tbody || !resultCount || !resultsSection) {
+                console.error('필수 요소를 찾을 수 없습니다!');
+                return;
+            }
+            
+            tbody.innerHTML = '';
+            resultCount.textContent = `${data.length}개 기업`;
+            
+            try {
+                data.forEach((item, index) => {
+                    console.log(`${index + 1}번째 기업 처리 중:`, item);
+                    const row = createTableRow(item, index + 1);
+                    tbody.appendChild(row);
+                });
+                
+                resultsSection.style.display = 'block';
+                console.log('결과 테이블 표시 완료');
+                
+            } catch (error) {
+                console.error('테이블 생성 중 오류:', error);
+            }
+        }
+        
+        function createTableRow(item, rank) {
+            const tr = document.createElement('tr');
+            
+            const safeFixed = (value, decimals) => {
+                return (value != null && !isNaN(value)) ? Number(value).toFixed(decimals) : '0.00';
+            };
+            
+            const getGradeClass = (grade) => {
+                if (!grade) return 'bg-secondary';
+                const gradeMap = {
+                    'A+': 'grade-A-plus', 'A': 'grade-A', 'B+': 'grade-B-plus',
+                    'B': 'grade-B', 'C+': 'grade-C-plus', 'C': 'grade-C', 'D': 'grade-D'
+                };
+                return gradeMap[grade] || 'bg-secondary';
+            };
+            
+            const getCorrelationClass = (correlation) => {
+                if (correlation == null || isNaN(correlation)) return 'correlation-neutral';
+                if (correlation > 0.3) return 'correlation-positive';
+                if (correlation < -0.3) return 'correlation-negative';
+                return 'correlation-neutral';
+            };
+            
+            const gradeClass = getGradeClass(item.investment_score?.grade);
+            const correlationClass = getCorrelationClass(item.correlation_analysis?.correlation_coefficient);
+            
+            tr.innerHTML = `
+                <td>${rank}</td>
+                <td>
+                    <strong>${item.stock_info?.company_name || 'N/A'}</strong><br>
+                    <small class="text-muted">${item.stock_info?.symbol || 'N/A'}</small>
+                </td>
+                <td>${item.stock_info?.sector || '-'}</td>
+                <td>${safeFixed(item.five_year_roe_avg, 2)}%</td>
+                <td>${safeFixed(item.ten_year_return, 2)}%</td>
+                <td class="${correlationClass}">${safeFixed(item.correlation_analysis?.correlation_coefficient, 3)}</td>
+                <td>
+                    <span class="badge ${gradeClass}">
+                        ${safeFixed(item.investment_score?.total_score, 0)}점
+                    </span>
+                </td>
+                <td>
+                    <span class="badge ${gradeClass}">${item.investment_score?.grade || 'N/A'}</span>
+                </td>
+                <td>
+                    <button class="btn-chart" onclick="showChart('${item.stock_info?.company_name || 'N/A'}', ${JSON.stringify(item.chart_data || {}).replace(/"/g, '&quot;')})">
+                        <i class="fas fa-chart-line"></i>
+                        차트보기
+                    </button>
+                    <button class="btn-portfolio ms-2" onclick="addToPortfolio(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+                        <i class="fas fa-plus"></i>
+                        포트폴리오
+                    </button>
+                </td>
+            `;
+            
+            return tr;
+        }
+        
+        // 디바운스 함수
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // 분석 실행 상태 추적
+        let isAnalyzing = false;
+        
+        // 자동 분석 실행 중 플래그
+        let isAutoAnalyzing = false;
+        
+        // 자동 분석 함수
+        const autoAnalyze = debounce(async () => {
+            if (isAnalyzing || isAutoAnalyzing) {
+                console.log('분석이 이미 실행 중입니다. 건너뜀.');
+                return;
+            }
+            
+            console.log('자동 분석 실행 중...');
+            isAutoAnalyzing = true;
+            
+            try {
+                // 기존 분석 버튼 클릭 함수와 동일한 로직 실행
+                const analyzeEvent = new Event('click');
+                analyzeBtn.dispatchEvent(analyzeEvent);
+            } finally {
+                // 약간의 지연 후 플래그 해제
+                setTimeout(() => {
+                    isAutoAnalyzing = false;
+                }, 1000);
+            }
+        }, 1000); // 1초 대기 후 실행 (더 빠른 반응)
+        
+        // 슬라이더 업데이트 및 자동 분석
+        document.getElementById('minRoe').addEventListener('input', (e) => {
+            document.getElementById('roeValue').textContent = e.target.value;
+            autoAnalyze();
+        });
+        
+        document.getElementById('years').addEventListener('input', (e) => {
+            document.getElementById('yearsValue').textContent = e.target.value;
+            autoAnalyze();
+        });
+        
+        // 기업 수 선택시에도 자동 분석
+        document.getElementById('limit').addEventListener('change', (e) => {
+            autoAnalyze();
+        });
+        
+        // 차트 표시 함수
+        function showChart(companyName, chartData) {
+            console.log('차트 표시:', companyName, chartData);
+            
+            const chartSection = document.getElementById('chartSection');
+            const detailsSection = document.getElementById('detailsSection');
+            
+            if (chartSection) {
+                chartSection.style.display = 'block';
+                
+                // 왼쪽 차트 (ROE) 데이터 준비
+                const roeCtx = document.getElementById('roeChart').getContext('2d');
+                const returnCtx = document.getElementById('returnChart').getContext('2d');
+                
+                // 기존 차트가 있으면 제거
+                if (window.roeChart && typeof window.roeChart.destroy === 'function') {
+                    window.roeChart.destroy();
+                }
+                if (window.returnChart && typeof window.returnChart.destroy === 'function') {
+                    window.returnChart.destroy();
+                }
+                
+                Chart.register(ChartDataLabels);
+                
+                // 상단 차트 (년도별 ROE vs 누적 년평균 수익률)
+                window.roeChart = new Chart(roeCtx, {
+                    type: 'line',
+                    data: {
+                        labels: chartData.labels || [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, '2025 YTD'],
+                        datasets: [{
+                            label: 'ROE (%)',
+                            data: chartData.roe_data || [15.0, 15.4, 15.8, 16.2, 16.6, 17.0, 17.4, 17.8, 18.2, 18.6, 19.3],
+                            borderColor: 'rgb(75, 192, 192)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            yAxisID: 'y',
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            pointBackgroundColor: 'rgb(75, 192, 192)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            tension: 0.4
+                        }, {
+                            label: '누적 수익률 (%)',
+                            data: chartData.return_data || [100, 115, 133, 153, 175, 201, 231, 266, 306, 353, 421],
+                            borderColor: 'rgb(255, 99, 132)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            yAxisID: 'y1',
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            pointBackgroundColor: 'rgb(255, 99, 132)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            },
+                            datalabels: {
+                                display: function(context) {
+                                    return context.dataIndex % 2 === 0;
+                                },
+                                color: function(context) {
+                                    return context.datasetIndex === 0 ? 'rgb(75, 192, 192)' : 'rgb(255, 99, 132)';
+                                },
+                                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                                borderColor: function(context) {
+                                    return context.datasetIndex === 0 ? 'rgb(75, 192, 192)' : 'rgb(255, 99, 132)';
+                                },
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                padding: 4,
+                                font: {
+                                    weight: 'bold',
+                                    size: 10
+                                },
+                                formatter: function(value, context) {
+                                    if (context.datasetIndex === 0) {
+                                        return value.toFixed(1) + '%';
+                                    } else {
+                                        return value.toFixed(0) + '%';
+                                    }
+                                },
+                                anchor: 'end',
+                                align: 'top',
+                                offset: 5
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: '연도'
+                                },
+                                ticks: {
+                                    maxRotation: 45,
+                                    minRotation: 45,
+                                    font: {
+                                        size: 10
+                                    }
+                                }
+                            },
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'ROE (%)'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: '누적 수익률 (%)'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // 하단 차트 (년도별 ROE vs 년도별 수익률) - 년도별 수익률 계산
+                const yearlyReturns = [];
+                if (chartData.return_data && chartData.return_data.length > 0) {
+                    yearlyReturns.push(0); // 첫 해는 0%
+                    for (let i = 1; i < chartData.return_data.length; i++) {
+                        const prevReturn = chartData.return_data[i - 1];
+                        const currentReturn = chartData.return_data[i];
+                        const yearlyReturn = ((currentReturn / prevReturn) - 1) * 100;
+                        yearlyReturns.push(yearlyReturn);
+                    }
+                } else {
+                    // 기본값
+                    yearlyReturns.push(...[0, 15, 15.7, 15.3, 14.2, 14.8, 15.1, 15.2, 15.0, 14.9, 19.2]);
+                }
+                
+                window.returnChart = new Chart(returnCtx, {
+                    type: 'line',
+                    data: {
+                        labels: chartData.labels || [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, '2025 YTD'],
+                        datasets: [{
+                            label: 'ROE (%)',
+                            data: chartData.roe_data || [15.0, 15.4, 15.8, 16.2, 16.6, 17.0, 17.4, 17.8, 18.2, 18.6, 19.3],
+                            borderColor: 'rgb(75, 192, 192)',
+                            backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            yAxisID: 'y',
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            pointBackgroundColor: 'rgb(75, 192, 192)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            tension: 0.4
+                        }, {
+                            label: '년도별 수익률 (%)',
+                            data: yearlyReturns,
+                            borderColor: 'rgb(255, 99, 132)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                            borderWidth: 3,
+                            fill: false,
+                            yAxisID: 'y1',
+                            pointRadius: 5,
+                            pointHoverRadius: 8,
+                            pointBackgroundColor: 'rgb(255, 99, 132)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: 'top'
+                            },
+                            datalabels: {
+                                display: function(context) {
+                                    return context.dataIndex % 2 === 0;
+                                },
+                                color: function(context) {
+                                    return context.datasetIndex === 0 ? 'rgb(75, 192, 192)' : 'rgb(255, 99, 132)';
+                                },
+                                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                                borderColor: function(context) {
+                                    return context.datasetIndex === 0 ? 'rgb(75, 192, 192)' : 'rgb(255, 99, 132)';
+                                },
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                padding: 4,
+                                font: {
+                                    weight: 'bold',
+                                    size: 10
+                                },
+                                formatter: function(value, context) {
+                                    return value.toFixed(1) + '%';
+                                },
+                                anchor: 'end',
+                                align: 'top',
+                                offset: 5
+                            }
+                        },
+                        scales: {
+                            x: {
+                                display: true,
+                                title: {
+                                    display: true,
+                                    text: '연도'
+                                },
+                                ticks: {
+                                    maxRotation: 45,
+                                    minRotation: 45,
+                                    font: {
+                                        size: 10
+                                    }
+                                }
+                            },
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                title: {
+                                    display: true,
+                                    text: 'ROE (%)'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                title: {
+                                    display: true,
+                                    text: '년도별 수익률 (%)'
+                                },
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            }
+                        }
+                    }
+                });
+                
+                // 스크롤하여 차트로 이동
+                chartSection.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            if (detailsSection) {
+                detailsSection.style.display = 'block';
+                const detailsContent = document.getElementById('detailsContent');
+                if (detailsContent) {
+                    detailsContent.innerHTML = `
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-info-circle text-primary"></i> 기업 정보</h5>
+                                <p><strong>기업명:</strong> ${companyName}</p>
+                                <p><strong>평균 ROE:</strong> ${chartData.roe_data ? (chartData.roe_data.reduce((a, b) => a + b, 0) / chartData.roe_data.length).toFixed(2) : 'N/A'}%</p>
+                                <p><strong>분석 기간:</strong> ${chartData.labels ? chartData.labels.length : 11}년 (${chartData.labels ? chartData.labels[0] : '2015'} ~ ${chartData.labels ? chartData.labels[chartData.labels.length - 1] : '2025 YTD'})</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5><i class="fas fa-chart-bar text-success"></i> 수익률 정보</h5>
+                                <p><strong>초기 투자:</strong> 100%</p>
+                                <p><strong>최종 수익률:</strong> ${chartData.return_data ? chartData.return_data[chartData.return_data.length - 1] : 'N/A'}%</p>
+                                <p><strong>연평균 성장률:</strong> ${chartData.roe_data ? ((chartData.roe_data.reduce((a, b) => a + b, 0) / chartData.roe_data.length)).toFixed(1) : 'N/A'}%</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+        
+        // 포트폴리오 관리 함수들
+        let portfolio = JSON.parse(localStorage.getItem('roei_portfolio') || '[]');
+        
+        function addToPortfolio(item) {
+            console.log('포트폴리오에 추가:', item);
+            
+            // 이미 포트폴리오에 있는지 확인
+            const exists = portfolio.find(p => p.stock_info?.symbol === item.stock_info?.symbol);
+            if (exists) {
+                alert('이미 포트폴리오에 추가된 기업입니다.');
+                return;
+            }
+            
+            portfolio.push(item);
+            localStorage.setItem('roei_portfolio', JSON.stringify(portfolio));
+            updatePortfolioDisplay();
+            
+            // 포트폴리오 섹션 표시
+            document.getElementById('portfolioSection').style.display = 'block';
+            document.getElementById('simulatorSection').style.display = 'block';
+            
+            alert(`${item.stock_info?.company_name || '기업'}이 포트폴리오에 추가되었습니다.`);
+        }
+        
+        function removeFromPortfolio(symbol) {
+            portfolio = portfolio.filter(item => item.stock_info?.symbol !== symbol);
+            localStorage.setItem('roei_portfolio', JSON.stringify(portfolio));
+            updatePortfolioDisplay();
+            
+            if (portfolio.length === 0) {
+                document.getElementById('portfolioSection').style.display = 'none';
+                document.getElementById('simulatorSection').style.display = 'none';
+            }
+        }
+        
+        function updatePortfolioDisplay() {
+            const portfolioList = document.getElementById('portfolioList');
+            const portfolioCount = document.getElementById('portfolioCount');
+            const portfolioAvgROE = document.getElementById('portfolioAvgROE');
+            const portfolioExpectedReturn = document.getElementById('portfolioExpectedReturn');
+            const portfolioAvgGrade = document.getElementById('portfolioAvgGrade');
+            
+            if (portfolio.length === 0) {
+                portfolioList.innerHTML = '<p class="text-muted">포트폴리오에 추가된 기업이 없습니다.</p>';
+                portfolioCount.textContent = '0';
+                portfolioAvgROE.textContent = '0.0%';
+                portfolioExpectedReturn.textContent = '0.0%';
+                portfolioAvgGrade.textContent = '-';
+                return;
+            }
+            
+            // 포트폴리오 리스트 업데이트
+            let listHtml = '<div class="portfolio-items">';
+            let totalROE = 0;
+            let totalReturn = 0;
+            let gradeSum = 0;
+            
+            portfolio.forEach((item, index) => {
+                const roe = item.five_year_roe_avg || 0;
+                const returnRate = item.ten_year_return || 0;
+                const grade = item.investment_score?.grade || 'D';
+                
+                totalROE += roe;
+                totalReturn += returnRate;
+                
+                // 등급을 숫자로 변환
+                const gradeValues = {'A+': 9, 'A': 8, 'B+': 7, 'B': 6, 'C+': 5, 'C': 4, 'D': 3};
+                gradeSum += gradeValues[grade] || 3;
+                
+                listHtml += `
+                    <div class="portfolio-item">
+                        <div class="portfolio-item-info">
+                            <strong>${item.stock_info?.company_name || 'N/A'}</strong>
+                            <small>${item.stock_info?.symbol || 'N/A'}</small>
+                        </div>
+                        <div class="portfolio-item-data">
+                            <span class="roe-data">ROE: ${roe.toFixed(1)}%</span>
+                            <span class="return-data">수익률: ${returnRate.toFixed(1)}%</span>
+                            <span class="badge grade-${grade?.replace('+', '-plus').toLowerCase()}">${grade}</span>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="removeFromPortfolio('${item.stock_info?.symbol}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            listHtml += '</div>';
+            
+            portfolioList.innerHTML = listHtml;
+            
+            // 평균 계산
+            const avgROE = (totalROE / portfolio.length).toFixed(1);
+            const avgReturn = (totalReturn / portfolio.length).toFixed(1);
+            const avgGradeValue = Math.round(gradeSum / portfolio.length);
+            const gradeNames = ['D', 'D', 'D', 'C', 'C+', 'B', 'B+', 'A', 'A+'];
+            const avgGrade = gradeNames[avgGradeValue] || 'D';
+            
+            portfolioCount.textContent = portfolio.length;
+            portfolioAvgROE.textContent = `${avgROE}%`;
+            portfolioExpectedReturn.textContent = `${avgReturn}%`;
+            portfolioAvgGrade.textContent = avgGrade;
+        }
+        
+        function togglePortfolio() {
+            const portfolioSection = document.getElementById('portfolioSection');
+            const simulatorSection = document.getElementById('simulatorSection');
+            
+            if (portfolioSection.style.display === 'none' || portfolioSection.style.display === '') {
+                portfolioSection.style.display = 'block';
+                simulatorSection.style.display = 'block';
+                updatePortfolioDisplay();
+            } else {
+                portfolioSection.style.display = 'none';
+                simulatorSection.style.display = 'none';
+            }
+        }
+        
+        function runSimulation() {
+            if (portfolio.length === 0) {
+                alert('포트폴리오에 기업을 먼저 추가해주세요.');
+                return;
+            }
+            
+            const initialAmount = parseFloat(document.getElementById('initialInvestment').value);
+            const period = parseInt(document.getElementById('investmentPeriod').value);
+            
+            // 포트폴리오 평균 ROE 계산
+            const avgROE = portfolio.reduce((sum, item) => sum + (item.five_year_roe_avg || 0), 0) / portfolio.length;
+            
+            // 복리 계산
+            const finalAmount = initialAmount * Math.pow(1 + (avgROE / 100), period);
+            const totalReturn = finalAmount - initialAmount;
+            const returnRate = ((finalAmount / initialAmount - 1) * 100);
+            const annualReturn = avgROE;
+            
+            // 결과 표시
+            document.getElementById('finalAmount').textContent = `${Math.round(finalAmount).toLocaleString()}만원`;
+            document.getElementById('totalReturn').textContent = `${Math.round(totalReturn).toLocaleString()}만원`;
+            document.getElementById('returnRate').textContent = `${returnRate.toFixed(1)}%`;
+            document.getElementById('annualReturn').textContent = `${annualReturn.toFixed(1)}%`;
+            
+            document.getElementById('simulationResults').style.display = 'block';
+        }
+        
+        function exportResults() {
+            if (portfolio.length === 0) {
+                alert('포트폴리오에 기업을 먼저 추가해주세요.');
+                return;
+            }
+            
+            let csvContent = "기업명,심볼,섹터,평균ROE(%),10년수익률(%),상관계수,투자점수,등급\n";
+            
+            portfolio.forEach(item => {
+                const row = [
+                    item.stock_info?.company_name || 'N/A',
+                    item.stock_info?.symbol || 'N/A',
+                    item.stock_info?.sector || '-',
+                    (item.five_year_roe_avg || 0).toFixed(2),
+                    (item.ten_year_return || 0).toFixed(2),
+                    (item.correlation_analysis?.correlation_coefficient || 0).toFixed(3),
+                    item.investment_score?.total_score || 0,
+                    item.investment_score?.grade || 'N/A'
+                ].join(',');
+                csvContent += row + "\n";
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "portfolio_analysis.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        
+        // 페이지 로드시 포트폴리오 표시
+        document.addEventListener('DOMContentLoaded', function() {
+            if (portfolio.length > 0) {
+                document.getElementById('portfolioSection').style.display = 'block';
+                document.getElementById('simulatorSection').style.display = 'block';
+                updatePortfolioDisplay();
+            }
+        });
+    </script>
+</body>
+</html>
