@@ -564,6 +564,11 @@
                 const maxReturnValue = Math.max(...chartData.return_data);
                 const dynamicMaxReturn = Math.ceil(maxReturnValue * 1.1); // 10% 여유분 추가
                 
+                // 1억에서 시작하여 각 년도별 투자금액 계산 (누적수익률 기반)
+                const investmentAmounts = chartData.return_data.map(returnPercent => {
+                    return 1 * (1 + returnPercent / 100); // 1억 * (1 + 수익률)
+                });
+                
                 document.getElementById('chartTitle').textContent = 
                     `${stockData.stock_info.company_name} (${stockData.stock_info.symbol}) - ROE vs 주가수익률`;
 
@@ -761,6 +766,22 @@
                                 if (returnValue !== undefined) {
                                     const label = returnValue.toFixed(0) + '%';
                                     ctx.fillText(label, point.x, point.y + 8);
+                                }
+                            });
+                            ctx.restore();
+                            
+                            // 투자금액 라벨 (누적수익률 상단)
+                            ctx.save();
+                            ctx.font = 'bold 10px Arial';
+                            ctx.fillStyle = '#059669';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            
+                            returnMeta.data.forEach((point, index) => {
+                                const investmentAmount = investmentAmounts[index];
+                                if (investmentAmount !== undefined) {
+                                    const amountLabel = investmentAmount.toFixed(1) + '억';
+                                    ctx.fillText(amountLabel, point.x, point.y - 20);
                                 }
                             });
                             
