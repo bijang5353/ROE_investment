@@ -8,8 +8,17 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <!-- Plotly 직접 로딩 -->
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"
+            onerror="console.log('CDN1 실패, CDN2 시도...'); this.onerror=null; this.src='https://cdn.jsdelivr.net/npm/plotly.js-dist@2.26.0/plotly.min.js';"
+            onload="console.log('✅ Plotly 로딩 성공!', typeof Plotly);">
+    </script>
+    <script>
+        // Plotly 로딩 상태 확인
+        window.addEventListener('load', function() {
+            console.log('🔍 페이지 로드 완료 - Plotly 상태:', typeof Plotly);
+        });
+    </script>
     <style>
         /* Modern Navigation Styles */
         .modern-navbar {
@@ -123,6 +132,22 @@
             max-height: 400px !important;
             height: 400px !important;
         }
+
+        /* 데스크톱 너비 제한 및 가운데 정렬 */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 모바일에서는 전체 너비 사용 */
+        @media (max-width: 768px) {
+            .main-container {
+                max-width: none;
+                margin: 0;
+                padding: 0 15px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -146,7 +171,8 @@
         </div>
     </nav>
 
-    <div class="container-fluid py-4">
+    <div class="main-container">
+        <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
@@ -290,7 +316,7 @@
                         <div class="col-12">
                             <div class="chart-container">
                                 <h5 class="text-center mb-3">년도별 ROE vs 누적 년평균 수익률 (%)</h5>
-                                <canvas id="roeChart"></canvas>
+                                <div id="roeChart"></div>
                             </div>
                         </div>
                     </div>
@@ -1260,5 +1286,6 @@
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    </div> <!-- main-container 닫기 -->
 </body>
 </html>
