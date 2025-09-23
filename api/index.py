@@ -356,7 +356,7 @@ async def serve_index():
         .card-header { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; }
         .form-range::-webkit-slider-thumb { background: #6366f1; }
         .btn-primary { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border: none; }
-        .btn-chart { background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); border: none; color: white; }
+        .btn-chart { background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); border: none; color: white; font-weight: 600; padding: 6px 12px; }
         .error-message { background: #fef2f2; color: #dc2626; padding: 10px; border-radius: 5px; margin: 10px 0; border-left: 4px solid #dc2626; }
         .success-message { background: #f0fdf4; color: #059669; padding: 10px; border-radius: 5px; margin: 10px 0; border-left: 4px solid #059669; }
         .grade-A-plus { background: #059669; color: white; }
@@ -444,7 +444,7 @@ async def serve_index():
                     <img src="https://raw.githubusercontent.com/bijang5353/ROE_investment/master/assets/images/profile.gif"
                          alt="AI Generated Portrait"
                          class="rounded-circle me-4"
-                         style="width: 80px; height: 80px; object-fit: cover; border: 3px solid #667eea; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"
+                         style="width: 160px; height: 160px; object-fit: cover; border: 4px solid #667eea; box-shadow: 0 6px 12px rgba(0,0,0,0.15);"
                          title="Created with Midjourney AI">
                     <h1 class="text-primary mb-0" style="font-weight: 600; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
                         ROE 기반 장기투자 분석 시스템
@@ -459,7 +459,7 @@ async def serve_index():
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">📈 투자 철학</h5>
-                            <button class="btn btn-outline-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#philosophyContent" aria-expanded="false" aria-controls="philosophyContent">
+                            <button class="btn btn-primary btn-sm fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#philosophyContent" aria-expanded="false" aria-controls="philosophyContent" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border: none; color: white; padding: 8px 16px;">
                                 <span id="philosophyToggleText">보기</span> <i class="bi bi-chevron-down" id="philosophyToggleIcon"></i>
                             </button>
                         </div>
