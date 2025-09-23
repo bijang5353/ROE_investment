@@ -979,7 +979,9 @@ async def serve_index():
                         },
                         tickfont: {
                             size: window.innerWidth <= 768 ? 8 : 10
-                        }
+                        },
+                        dtick: window.innerWidth <= 768 ? 2 : 1,
+                        tickmode: 'linear'
                     },
                     yaxis: {
                         title: 'ROE (%)',
@@ -1169,7 +1171,9 @@ async def serve_index():
                         },
                         tickfont: {
                             size: window.innerWidth <= 768 ? 8 : 10
-                        }
+                        },
+                        dtick: window.innerWidth <= 768 ? 2 : 1,
+                        tickmode: 'linear'
                     },
                     yaxis: {
                         title: '수익률 (%)',
