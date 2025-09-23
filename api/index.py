@@ -407,7 +407,7 @@ async def serve_index():
         .chart-container {
             position: relative;
             height: 400px;
-            margin-bottom: 2rem;
+            margin-bottom: 4rem;
         }
 
         /* 데스크톱 너비 제한 및 가운데 정렬 */
@@ -435,7 +435,7 @@ async def serve_index():
         @media (max-width: 768px) {
             .chart-container {
                 height: 520px;
-                margin-bottom: 1.5rem;
+                margin-bottom: 3rem;
             }
             #roeChart, #returnChart {
                 width: 100%;
@@ -452,7 +452,7 @@ async def serve_index():
         @media (max-width: 480px) {
             .chart-container {
                 height: 450px;
-                margin-bottom: 1rem;
+                margin-bottom: 2.5rem;
             }
             #roeChart, #returnChart {
                 height: 450px !important;
