@@ -356,7 +356,35 @@ async def serve_index():
         .card-header { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; }
         .form-range::-webkit-slider-thumb { background: #6366f1; }
         .btn-primary { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border: none; }
-        .btn-chart { background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%); border: none; color: white; font-weight: 600; padding: 6px 12px; }
+        .btn-chart {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-chart:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(14, 165, 233, 0.4);
+            color: white;
+        }
+        .philosophy-toggle-btn {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 3px 6px rgba(245, 158, 11, 0.3);
+            transition: all 0.3s ease;
+        }
+        .philosophy-toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(245, 158, 11, 0.4);
+            color: white;
+        }
         .error-message { background: #fef2f2; color: #dc2626; padding: 10px; border-radius: 5px; margin: 10px 0; border-left: 4px solid #dc2626; }
         .success-message { background: #f0fdf4; color: #059669; padding: 10px; border-radius: 5px; margin: 10px 0; border-left: 4px solid #059669; }
         .grade-A-plus { background: #059669; color: white; }
@@ -459,8 +487,10 @@ async def serve_index():
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <h5 class="card-title mb-0">📈 투자 철학</h5>
-                            <button class="btn btn-primary btn-sm fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#philosophyContent" aria-expanded="false" aria-controls="philosophyContent" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); border: none; color: white; padding: 8px 16px;">
-                                <span id="philosophyToggleText">보기</span> <i class="bi bi-chevron-down" id="philosophyToggleIcon"></i>
+                            <button class="btn btn-sm fw-bold philosophy-toggle-btn" type="button" data-bs-toggle="collapse" data-bs-target="#philosophyContent" aria-expanded="false" aria-controls="philosophyContent">
+                                <i class="fas fa-eye me-2"></i>
+                                <span id="philosophyToggleText">투자철학 보기</span>
+                                <i class="bi bi-chevron-down ms-2" id="philosophyToggleIcon"></i>
                             </button>
                         </div>
                     </div>
@@ -770,6 +800,7 @@ async def serve_index():
                     </td>
                     <td>
                         <button class="btn btn-chart btn-sm" onclick="window.analyzer.showChart('${item.stock_info.symbol}')">
+                            <i class="fas fa-chart-line me-1"></i>
                             차트 보기
                         </button>
                     </td>
@@ -1390,13 +1421,13 @@ async def serve_index():
             if (philosophyCollapse && toggleText && toggleIcon) {
                 philosophyCollapse.addEventListener('show.bs.collapse', function() {
                     console.log('투자철학 섹션 열림');
-                    toggleText.textContent = '숨기기';
+                    toggleText.textContent = '투자철학 숨기기';
                     toggleIcon.className = 'bi bi-chevron-up';
                 });
                 
                 philosophyCollapse.addEventListener('hide.bs.collapse', function() {
                     console.log('투자철학 섹션 닫힘');
-                    toggleText.textContent = '보기';
+                    toggleText.textContent = '투자철학 보기';
                     toggleIcon.className = 'bi bi-chevron-down';
                 });
                 
