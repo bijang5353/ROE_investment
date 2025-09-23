@@ -1056,6 +1056,14 @@ async def serve_index():
 
                 console.log('🚀 Plotly.newPlot 시작...');
                 console.log('차트 컨테이너 확인:', document.getElementById('roeChart'));
+                console.log('📊 차트 데이터 확인:', {
+                    labels: chartData.labels,
+                    roe_data: chartData.roe_data,
+                    return_data: chartData.return_data,
+                    labelCount: chartData.labels.length,
+                    roeCount: chartData.roe_data.length,
+                    returnCount: chartData.return_data.length
+                });
 
                 Plotly.newPlot('roeChart', [trace1, trace2, trace3], layout, config).then(() => {
                     console.log('✅ Plotly 차트 생성 완료!');
@@ -1219,6 +1227,13 @@ async def serve_index():
 
                 console.log('🚀 Return Chart - Plotly.newPlot 시작...');
                 console.log('Return 차트 컨테이너 확인:', document.getElementById('returnChart'));
+                console.log('📊 Return 차트 데이터 확인:', {
+                    labels: chartData.labels,
+                    yearlyReturns: yearlyReturns,
+                    labelCount: chartData.labels.length,
+                    yearlyReturnCount: yearlyReturns.length,
+                    has2025YTD: chartData.labels.includes('2025 YTD')
+                });
 
                 Plotly.newPlot('returnChart', [trace1, trace2, trace3], layout, config).then(() => {
                     console.log('✅ Plotly return chart created');
