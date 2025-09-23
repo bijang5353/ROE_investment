@@ -441,7 +441,7 @@ async def serve_index():
         <div class="container-fluid py-4">
             <div class="text-center mb-4 mt-3">
                 <div class="d-flex align-items-center justify-content-center mb-3">
-                    <img src="https://raw.githubusercontent.com/bijang5353/ROE_investment/master/assets/images/profile.png"
+                    <img src="https://raw.githubusercontent.com/bijang5353/ROE_investment/master/assets/images/profile.gif"
                          alt="AI Generated Portrait"
                          class="rounded-circle me-4"
                          style="width: 80px; height: 80px; object-fit: cover; border: 3px solid #667eea; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"
