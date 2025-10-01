@@ -1,0 +1,55 @@
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Testing and development
+backend/
+*.py[cod]
+*$py.class
+
+# Environment
+.env
+.venv
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Large test files
+test_*.py
+debug_*.py
+create_demo_data.py
+run.py
+simple_server.py
+chart_test.html
+temp_index.html
+
+# Documentation
+README.md
+*.md
+
+# Large media files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.mov
+
+# Claude
+.claude/
