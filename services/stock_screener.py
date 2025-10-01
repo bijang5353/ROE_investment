@@ -5,12 +5,6 @@ from typing import List, Optional
 from models.stock_models import StockInfo, ROEData
 import time
 
-try:
-    from alpha_vantage.fundamentaldata import FundamentalData
-    ALPHA_VANTAGE_AVAILABLE = True
-except ImportError:
-    ALPHA_VANTAGE_AVAILABLE = False
-
 class StockScreener:
     def __init__(self):
         # S&P 500 주요 기업들 - 실제 환경에서는 더 많은 기업 리스트 사용
@@ -21,9 +15,6 @@ class StockScreener:
             'LLY', 'NKE', 'ORCL', 'DHR', 'TXN', 'NEE', 'VZ', 'RTX', 'CMCSA', 'INTC',
             'AMD', 'HON', 'T', 'QCOM', 'LOW', 'IBM', 'UPS', 'INTU', 'AMGN', 'CAT'
         ]
-        self.alpha_vantage_key = "LPDBEJCLJ60EUYU0"
-        if ALPHA_VANTAGE_AVAILABLE:
-            self.fundamental_data = FundamentalData(key=self.alpha_vantage_key, output_format='pandas')
     
     async def screen_high_roe_stocks(self, min_roe: float = 15.0, years: int = 5, limit: int = 20) -> List[StockInfo]:
         """ROE 기준 완화된 스크리닝: 최근 5년 평균 또는 10년 중 7년 이상"""
@@ -185,14 +176,7 @@ class StockScreener:
             return None
     
     def get_stock_roe_history(self, symbol: str, years: int = 10) -> List[ROEData]:
-        """특정 주식의 ROE 히스토리 가져오기"""
-        # 먼저 Alpha Vantage API 시도
-        if ALPHA_VANTAGE_AVAILABLE and hasattr(self, 'fundamental_data'):
-            alpha_data = self._get_roe_from_alpha_vantage(symbol, years)
-            if alpha_data and len(alpha_data) >= 3:  # 최소 3년 이상 데이터가 있으면 사용
-                return alpha_data
-        
-        # Alpha Vantage 실패시 yfinance 사용
+        """특정 주식의 ROE 히스토리 가져오기 (Yahoo Finance 사용)"""
         try:
             ticker = yf.Ticker(symbol)
             financials = ticker.financials
@@ -244,51 +228,4 @@ class StockScreener:
             
         except Exception as e:
             print(f"Error getting ROE history for {symbol}: {e}")
-            return []
-    
-    def _get_roe_from_alpha_vantage(self, symbol: str, years: int = 10) -> List[ROEData]:
-        """Alpha Vantage API를 사용하여 ROE 데이터 가져오기"""
-        if not ALPHA_VANTAGE_AVAILABLE or not hasattr(self, 'fundamental_data'):
-            return []
-        
-        try:
-            # Alpha Vantage에서 재무제표 데이터 가져오기
-            income_statement, _ = self.fundamental_data.get_income_statement_annual(symbol)
-            balance_sheet, _ = self.fundamental_data.get_balance_sheet_annual(symbol)
-            
-            if income_statement is None or balance_sheet is None:
-                return []
-            
-            roe_history = []
-            
-            for year_str in income_statement.columns[:years]:  # 최근 년도부터
-                try:
-                    year = pd.to_datetime(year_str).year
-                    
-                    # Net Income 가져오기
-                    net_income = income_statement.loc['netIncome', year_str]
-                    if pd.isna(net_income) or net_income == 0:
-                        continue
-                    
-                    # Shareholders' Equity 가져오기  
-                    shareholders_equity = balance_sheet.loc['totalShareholderEquity', year_str]
-                    if pd.isna(shareholders_equity) or shareholders_equity == 0:
-                        continue
-                    
-                    # ROE 계산
-                    roe = (float(net_income) / float(shareholders_equity)) * 100
-                    
-                    roe_history.append(ROEData(
-                        year=year,
-                        roe=roe,
-                        net_income=float(net_income)
-                    ))
-                    
-                except Exception as e:
-                    continue
-            
-            return sorted(roe_history, key=lambda x: x.year)
-            
-        except Exception as e:
-            print(f"Error getting Alpha Vantage data for {symbol}: {e}")
             return []
